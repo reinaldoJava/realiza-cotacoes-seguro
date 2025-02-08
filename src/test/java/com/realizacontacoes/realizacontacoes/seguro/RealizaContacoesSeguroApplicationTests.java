@@ -1,4 +1,4 @@
-package com.realizacontacoes.realizacontacoes_seguro;
+package com.realizacontacoes.realizacontacoes.seguro;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
