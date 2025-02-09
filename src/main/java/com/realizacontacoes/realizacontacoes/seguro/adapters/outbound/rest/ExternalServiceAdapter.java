@@ -1,7 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.rest;
 
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.InsurancePolicy;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.ProductResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.ExternalServicePort;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class ExternalServiceAdapter implements ExternalServicePort {
     }
 
     @Override
-    public InsurancePolicy getExternalData(String id) {
+    public ProductResponse getExternalData(String id) {
         return externalUserClient.getExternalData(id);
     }
 }

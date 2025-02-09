@@ -1,0 +1,7 @@
+package com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput;
+
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.OfertaResponse;
+
+public interface OfertaServicePort {
+    OfertaResponse getOfertaById(String id);
+}

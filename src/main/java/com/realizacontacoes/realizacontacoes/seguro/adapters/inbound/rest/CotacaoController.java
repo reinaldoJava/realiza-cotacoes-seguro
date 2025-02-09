@@ -2,6 +2,7 @@ package com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.rest;
 
 
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.InsuranceRequest;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.ProductResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.input.CotacaoServicePort;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,8 @@ public class CotacaoController {
 
     @GetMapping
     public ResponseEntity<String> getCotacao(@Valid @RequestBody InsuranceRequest request) {
-        cotacaoServicePort.getExternalData(request.productId());
+        ProductResponse response = cotacaoServicePort.getExternalData(request.productId());
+        cotacaoServicePort.validarCotacao(request,response);
         return ResponseEntity.ok("Cotação recebida com sucesso.");
     }
 }

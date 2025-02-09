@@ -13,5 +13,5 @@ public record InsurancePolicy(
         Boolean active,
         Map<String, BigDecimal> coverages,
         List<String> assistances,
-        MonthlyPremiumAmount monthly_premium_amount
+        PremioMensal monthly_premium_amount
 )
