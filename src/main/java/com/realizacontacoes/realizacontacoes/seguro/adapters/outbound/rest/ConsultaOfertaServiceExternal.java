@@ -7,8 +7,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "externalOfferService", url = "http://external-service.com", configuration = FeignClientConfig.class)
-public interface ExternalOfertaService {
-    @GetMapping("/external/offer/{id}")
-    OfertaResponse getOfferById(@PathVariable("id") String offerId);
+@FeignClient(name = "consultaOferta", url = "${feign.consulta.oferta.url}", configuration = FeignClientConfig.class)
+public interface ConsultaOfertaServiceExternal {
+    @GetMapping("/consulta-oferta/{id}")
+    OfertaResponse getOfertaById(@PathVariable("id") String offerId);
 }
+

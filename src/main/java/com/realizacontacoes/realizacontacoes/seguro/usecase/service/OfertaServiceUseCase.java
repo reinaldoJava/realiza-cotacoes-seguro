@@ -1,16 +1,17 @@
 package com.realizacontacoes.realizacontacoes.seguro.usecase.service;
 
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.OfertaResponse;
-import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.OfertaServicePort;
+import com.realizacontacoes.realizacontacoes.seguro.domain.ports.input.OfertaServicePort;
+import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.ConsultaOfertaServicePort;
 
-public class OfertaServiceUseCase {
+public class OfertaServiceUseCase implements OfertaServicePort {
 
-    private final OfertaServicePort ofertaServicePort;
+    private final ConsultaOfertaServicePort consultaOfertaServicePort;
 
-    public OfertaServiceUseCase(OfertaServicePort ofertaServicePort) {
-        this.ofertaServicePort = ofertaServicePort;
+    public OfertaServiceUseCase(ConsultaOfertaServicePort consultaOfertaServicePort) {
+        this.consultaOfertaServicePort = consultaOfertaServicePort;
     }
     public OfertaResponse getOferta(String id){
-        return ofertaServicePort.getOfertaById(id);
+        return consultaOfertaServicePort.getOfertaById(id);
     }
 }

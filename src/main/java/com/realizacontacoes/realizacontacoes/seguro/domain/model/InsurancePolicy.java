@@ -14,4 +14,4 @@ public record InsurancePolicy(
         Map<String, BigDecimal> coverages,
         List<String> assistances,
         PremioMensal monthly_premium_amount
-)
+){}
