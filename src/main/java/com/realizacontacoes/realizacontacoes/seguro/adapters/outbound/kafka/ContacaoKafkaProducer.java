@@ -13,14 +13,10 @@ public class ContacaoKafkaProducer  implements EnviaMensagemCotacaoPort {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(ContacaoKafkaProducer.class);
 
-    @Value("${spring.kafka.producer.topic}")
-    private String topic;
-
     public ContacaoKafkaProducer(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
-
-    public void enviarMensagem(String payload) {
+    public void enviarMensagem(String topic, String payload) {
         LOGGER.info("enviando msg payload='{}' to topic='{}'", payload, topic);
         kafkaTemplate.send(topic, payload);
 

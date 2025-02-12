@@ -17,6 +17,10 @@ services:
       SPRING_PROFILES_ACTIVE: dev
     depends_on:
       - mysql
+    networks:
+      - minha-rede  # Adicionado aqui
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   mysql:
     image: mysql:8.0
@@ -31,11 +35,8 @@ services:
       - "3306:3306"
     volumes:
       - ./init_sql:/docker-entrypoint-initdb.d/
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      - minha-rede  # Adicionado aqui
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -45,41 +46,14 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://host.docker.internal:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-
-  schema-registry:
-    image: confluentinc/cp-schema-registry:latest
-    container_name: schema-registry
-    ports:
-      - "8081:8081"
-    environment:
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "kafka:9092"
-      SCHEMA_REGISTRY_HOST_NAME: "schema-registry"
-    depends_on:
-      - kafka
-
-  kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    container_name: kafka-ui
-    ports:
-      - "8080:8080"
-    environment:
-      KAFKA_CLUSTERS_0_NAME: "local"
-      KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: "kafka:9092"
-      KAFKA_CLUSTERS_0_SCHEMA_REGISTRY: "http://schema-registry:8081"
-    depends_on:
-      - kafka
-      - schema-registry
-
-  mock-consumer:
-    image: quay.io/debezium/tooling:latest
-    container_name: mock-consumer
-    command: ["sleep", "infinity"]
-    depends_on:
-      - kafka
+    networks:
+      - minha-rede  # Adicionado aqui
 
   servicos-externos:
     image: python:3.9
@@ -90,3 +64,9 @@ services:
     ports:
       - "9091:9091"
     command: ["python", "mock_api.py"]
+    networks:
+      - minha-rede  # Adicionado aqui
+
+networks:
+  minha-rede:
+    driver: bridge

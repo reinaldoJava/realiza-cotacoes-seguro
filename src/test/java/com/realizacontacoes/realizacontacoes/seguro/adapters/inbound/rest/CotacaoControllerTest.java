@@ -30,7 +30,7 @@ class CotacaoControllerTest {
 
     @Test
     void deveRetornar200QuandoRequisicaoValida() throws Exception {
-        InsuranceRequest validRequest = InsuranceRequestMock.createValidRequest();
+        InsuranceRequest validRequest = InsuranceRequestMock.criarInsuranceRequestValido();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -43,11 +43,11 @@ class CotacaoControllerTest {
 
     @Test
     void deveRetornar400QuandoRequisicaoInvalida() throws Exception {
-        InsuranceRequest invalidRequest = InsuranceRequestMock.createInvalidRequest();
+        InsuranceRequest invalidRequest = InsuranceRequestMock.criarInsuranceRequestComAssistenciasInvalidas();
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(invalidRequest)))
+                        .content(invalidRequest.toString()))
                 .andExpect(status().isBadRequest());
 
         verify(processaCotacaoPort, never()).processarCotacao(any(InsuranceRequest.class));
@@ -55,13 +55,13 @@ class CotacaoControllerTest {
 
     @Test
     void deveRetornar500QuandoProcessamentoFalhar() throws Exception {
-        InsuranceRequest validRequest = InsuranceRequestMock.createValidRequest();
+        InsuranceRequest validRequest = InsuranceRequestMock.criarInsuranceRequestValido();
 
         doThrow(new RuntimeException("Erro interno")).when(processaCotacaoPort).processarCotacao(any(InsuranceRequest.class));
 
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(validRequest)))
+                        .content(validRequest.toString()))
                 .andExpect(status().isInternalServerError());
 
         verify(processaCotacaoPort, times(1)).processarCotacao(any(InsuranceRequest.class));

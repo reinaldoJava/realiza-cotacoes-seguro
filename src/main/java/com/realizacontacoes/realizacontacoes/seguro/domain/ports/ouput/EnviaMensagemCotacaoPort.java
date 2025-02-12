@@ -1,5 +1,5 @@
 package com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput;
 
 public interface EnviaMensagemCotacaoPort {
-    void enviarMensagem(String mensagem);
+    void enviarMensagem(String topic, String mensagem);
 }

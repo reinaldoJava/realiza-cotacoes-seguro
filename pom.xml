@@ -207,6 +207,13 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/excluded/package/**</exclude>
+								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/RealizaContacoesSeguroApplication.java</exclude>
+								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/config/**</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
