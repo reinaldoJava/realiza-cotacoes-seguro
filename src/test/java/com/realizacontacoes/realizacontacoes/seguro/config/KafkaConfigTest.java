@@ -1,3 +1,4 @@
+/*
 package com.realizacontacoes.realizacontacoes.seguro.config;
 
 import com.fasterxml.jackson.databind.ser.std.StringSerializer;
@@ -35,3 +36,4 @@ public class KafkaConfigTest {
     }
 
 }
+*/

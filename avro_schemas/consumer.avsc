@@ -1,0 +1,31 @@
+{
+  "type": "record",
+  "name": "CotacaoResponse",
+  "namespace": "com.realizacontacoes.realizacontacoes.avro",
+  "fields": [
+    {"name": "id", "type": "long"},
+    {"name": "insurance_policy_id", "type": "long"},
+    {"name": "product_id", "type": "string"},
+    {"name": "offer_id", "type": "string"},
+    {"name": "category", "type": "string"},
+    {"name": "created_at", "type": "string"},
+    {"name": "updated_at", "type": "string"},
+    {"name": "total_monthly_premium_amount", "type": "double"},
+    {"name": "total_coverage_amount", "type": "double"},
+    {"name": "coverages", "type": { "type": "map", "values": "double" }},
+    {"name": "assistances", "type": { "type": "array", "items": "string" }},
+    {"name": "customer", "type": {
+      "type": "record",
+      "name": "Customer",
+      "fields": [
+        {"name": "document_number", "type": "string"},
+        {"name": "name", "type": "string"},
+        {"name": "type", "type": "string"},
+        {"name": "gender", "type": "string"},
+        {"name": "date_of_birth", "type": "string"},
+        {"name": "email", "type": "string"},
+        {"name": "phone_number", "type": "long"}
+      ]
+    }}
+  ]
+}

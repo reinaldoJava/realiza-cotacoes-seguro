@@ -1,7 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.rest;
 
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.ProdutoResponse;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.ProdutoResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.ConsultaProdutoServicePort;
 import org.springframework.stereotype.Service;
 

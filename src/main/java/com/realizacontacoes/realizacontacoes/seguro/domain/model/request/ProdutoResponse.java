@@ -1,4 +1,4 @@
-package com.realizacontacoes.realizacontacoes.seguro.domain.model;
+package com.realizacontacoes.realizacontacoes.seguro.domain.model.request;
 
 import java.time.Instant;
 import java.util.List;

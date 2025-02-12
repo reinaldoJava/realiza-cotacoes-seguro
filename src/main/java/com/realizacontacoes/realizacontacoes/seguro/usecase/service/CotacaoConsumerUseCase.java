@@ -1,6 +1,5 @@
 package com.realizacontacoes.realizacontacoes.seguro.usecase.service;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.InsuranceRequest;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRepositoryPort;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.RecebeCotacaoPort;
 import org.slf4j.Logger;

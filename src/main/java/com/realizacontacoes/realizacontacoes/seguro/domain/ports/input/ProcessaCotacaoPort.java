@@ -1,7 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.domain.ports.input;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.InsuranceRequest;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.InsuranceRequest;
 
-public interface SalvarContacaoPort {
+public interface ProcessaCotacaoPort {
     void processarCotacao(InsuranceRequest requisicao);
 }

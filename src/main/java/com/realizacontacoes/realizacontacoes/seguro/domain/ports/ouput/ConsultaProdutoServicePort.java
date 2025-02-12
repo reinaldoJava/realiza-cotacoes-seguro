@@ -1,6 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.ProdutoResponse;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.ProdutoResponse;
 
 public interface ConsultaProdutoServicePort {
     ProdutoResponse consultarProduto(String id);

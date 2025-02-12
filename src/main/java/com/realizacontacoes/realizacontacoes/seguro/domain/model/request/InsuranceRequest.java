@@ -1,6 +1,7 @@
-package com.realizacontacoes.realizacontacoes.seguro.domain.model;
+package com.realizacontacoes.realizacontacoes.seguro.domain.model.request;
 
 import com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.exception.ValidationException;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.ValidationMessages;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
@@ -17,8 +18,9 @@ public record InsuranceRequest(
         @Positive BigDecimal totalCoverageAmount,
         Map<String, BigDecimal> coverages,
         List<String> assistances,
-        Customer customer
-) {public void validarAssistencias(Set<String> assistenciasDisponiveis) {
+        CustomerRequest customerRequest
+) {
+    public void validarAssistencias(Set<String> assistenciasDisponiveis) {
     if (!assistenciasDisponiveis.containsAll(this.assistances)) {
         throw new ValidationException("Uma ou mais assistências não estão disponíveis na oferta.");
     }
