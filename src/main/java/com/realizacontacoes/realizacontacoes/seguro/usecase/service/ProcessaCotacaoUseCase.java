@@ -26,7 +26,7 @@ public class ProcessaCotacaoUseCase implements ProcessaCotacaoPort {
         //Busca informações do produto.
         ProdutoResponse produtoResponse = produtoServiceUseCase.getProduto(request.productId());
         //Busca informações da oferta.
-        OfertaResponse ofertaResponse = ofertaServiceUseCase.getOferta(produtoResponse.id());
+        OfertaResponse ofertaResponse = ofertaServiceUseCase.getOferta(produtoResponse.ofertas().stream().findFirst().get(), produtoResponse.id());
         //Salva no banco
         Cotacao cotacao = salvaCotacaoUseCase.salvarCotacao(CotacaoMapper.criarCotacao(produtoResponse,ofertaResponse,request));
         //Envia ao Kafka.

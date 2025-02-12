@@ -10,10 +10,10 @@ public class OfertaServiceUseCase{
     public OfertaServiceUseCase(ConsultaOfertaServicePort consultaOfertaServicePort) {
         this.consultaOfertaServicePort = consultaOfertaServicePort;
     }
-    public OfertaResponse getOferta(String id){
+    public OfertaResponse getOferta(String id, String produtoId){
         OfertaResponse ofertaResponse = consultaOfertaServicePort.getOfertaById(id);
         ofertaResponse.validarAtividade();
-        ofertaResponse.validarProdutoAssociado(id);
+        ofertaResponse.validarProdutoAssociado(produtoId);
         return ofertaResponse;
     }
 }
