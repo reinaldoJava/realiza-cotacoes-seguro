@@ -1,5 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.domain.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.exception.ValidationException;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.ValidationMessages;
 import jakarta.validation.constraints.NotBlank;
@@ -11,11 +12,19 @@ import java.util.Map;
 import java.util.Set;
 
 public record InsuranceRequest(
-        @NotBlank(message = ValidationMessages.NOT_NULL_OR_BLANK) String productId,
+        @NotBlank(message = ValidationMessages.NOT_NULL_OR_BLANK)
+        @JsonProperty("product_id")
+        String productId,
+        @JsonProperty("offer_id")
         String offerId,
-        @NotBlank(message = ValidationMessages.NOT_NULL_OR_BLANK) String category,
-        @Positive BigDecimal totalMonthlyPremiumAmount,
-        @Positive BigDecimal totalCoverageAmount,
+        @NotBlank(message = ValidationMessages.NOT_NULL_OR_BLANK)
+        String category,
+        @Positive
+        @JsonProperty("total_monthly_premium_amount")
+        BigDecimal totalMonthlyPremiumAmount,
+        @Positive
+        @JsonProperty("total_coverage_amount")
+        BigDecimal totalCoverageAmount,
         Map<String, BigDecimal> coverages,
         List<String> assistances,
         CustomerRequest customerRequest

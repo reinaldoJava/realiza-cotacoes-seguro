@@ -7,8 +7,9 @@ import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRe
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.EnviaMensagemCotacaoPort;
 import com.realizacontacoes.realizacontacoes.seguro.usecase.service.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-
+@Configuration
 public class UseCaseConfig {
 
     @Bean
@@ -31,6 +32,10 @@ public class UseCaseConfig {
     @Bean
     public ProcessaCotacaoUseCase processaCotacaoService(OfertaServiceUseCase ofertaServiceUseCase, ProdutoServiceUseCase produtoServiceUseCase, SalvaCotacaoUseCase salvaCotacaoUseCase, CotacaoProducerUseCase cotacaoProducerUseCase) {
         return new ProcessaCotacaoUseCase(ofertaServiceUseCase,produtoServiceUseCase,salvaCotacaoUseCase,cotacaoProducerUseCase);
+    }
+    @Bean
+    public SalvaCotacaoUseCase salvaCotacaoUseCase(CotacaoRepositoryPort cotacaoRepositoryPort){
+        return new SalvaCotacaoUseCase(cotacaoRepositoryPort);
     }
 
     @Bean
