@@ -1,4 +1,4 @@
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     document_number VARCHAR(20) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE customers (
     phone_number BIGINT NOT NULL
 );
 
-CREATE TABLE cotacoes (
+CREATE TABLE IF NOT EXISTS cotacoes (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     product_id VARCHAR(100) NOT NULL,
     offer_id VARCHAR(100) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE cotacoes (
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
-CREATE TABLE coverages (
+CREATE TABLE IF NOT EXISTS coverages (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(50) NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,

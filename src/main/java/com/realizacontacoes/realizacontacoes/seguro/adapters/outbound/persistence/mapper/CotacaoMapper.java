@@ -97,7 +97,7 @@ public class CotacaoMapper {
                 .collect(Collectors.toList());
 
         // Criando o objeto Customer
-        CustomerRequest customerRequest = insuranceRequest.customerRequest();
+        CustomerRequest customerRequest = insuranceRequest.customer();
         Customer customer = new Customer(
                 null,
                 customerRequest.documentNumber(),

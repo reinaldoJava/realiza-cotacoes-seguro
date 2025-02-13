@@ -26,7 +26,7 @@ public record InsuranceRequest(
         BigDecimal totalCoverageAmount,
         Map<String, BigDecimal> coverages,
         List<String> assistances,
-        CustomerRequest customerRequest
+        CustomerRequest customer
 ) {
     public void validarAssistencias(List<String> assistenciasDisponiveis) {
     if (!assistenciasDisponiveis.containsAll(this.assistances)) {

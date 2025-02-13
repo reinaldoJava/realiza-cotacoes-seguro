@@ -1,27 +1,6 @@
 version: '3.8'
 
 services:
-  app:
-    image: openjdk:17
-    container_name: app
-    working_dir: /app
-    volumes:
-      - .:/app
-    command: ["./mvnw", "spring-boot:run"]
-    ports:
-      - "9090:9090"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cotacao
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_PROFILES_ACTIVE: dev
-    depends_on:
-      - mysql
-    networks:
-      - minha-rede  # Adicionado aqui
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
   mysql:
     image: mysql:8.0
     container_name: mysql_db
@@ -35,25 +14,9 @@ services:
       - "3306:3306"
     volumes:
       - ./init_sql:/docker-entrypoint-initdb.d/
+      - mysql-data:/var/lib/mysql
     networks:
-      - minha-rede  # Adicionado aqui
-
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://host.docker.internal:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    depends_on:
-      - zookeeper
-    networks:
-      - minha-rede  # Adicionado aqui
+      - minha-rede
 
   servicos-externos:
     image: python:3.9
@@ -63,10 +26,42 @@ services:
     working_dir: /app
     ports:
       - "9091:9091"
-    command: ["python", "mock_api.py"]
+    command: [ "python", "mock_api.py" ]
     networks:
-      - minha-rede  # Adicionado aqui
+      - minha-rede
+
+  zookeeper:
+    hostname: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - minha-rede
+
+  kafka:
+    hostname: kafka
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - minha-rede
 
 networks:
   minha-rede:
     driver: bridge
+
+volumes:
+  mysql-data:
+  kafka-data:
