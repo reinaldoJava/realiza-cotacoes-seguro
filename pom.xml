@@ -116,11 +116,11 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>io.confluent</groupId>
 			<artifactId>kafka-avro-serializer</artifactId>
-			<version>7.5.0</version> <!-- Verifique a última versão disponível -->
-		</dependency>
+			<version>7.5.0</version> &lt;!&ndash; Verifique a última versão disponível &ndash;&gt;
+		</dependency>-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
