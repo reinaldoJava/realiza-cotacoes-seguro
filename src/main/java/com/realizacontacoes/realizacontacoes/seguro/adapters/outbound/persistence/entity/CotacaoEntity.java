@@ -1,8 +1,11 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -28,13 +31,22 @@ public class CotacaoEntity {
 
     @ElementCollection
     @CollectionTable(name = "assistances", joinColumns = @JoinColumn(name = "cotacao_id"))
+    @Column(name = "assistance_name")
     private List<String> assistances;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
-    // Getters e Setters
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+        // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -105,5 +117,18 @@ public class CotacaoEntity {
 
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt ;
+    }
+
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

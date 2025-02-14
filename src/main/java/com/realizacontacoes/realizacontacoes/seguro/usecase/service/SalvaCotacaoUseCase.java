@@ -1,6 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.usecase.service;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRepositoryPort;
 
 public class SalvaCotacaoUseCase {
@@ -11,7 +11,7 @@ public class SalvaCotacaoUseCase {
         this.cotacaoRepositoryPort = cotacaoRepositoryPort;
     }
 
-    public Cotacao salvarCotacao(Cotacao requisicao) {
+    public CotacaoDTO salvarCotacao(CotacaoDTO requisicao) {
         return cotacaoRepositoryPort.salvarCotacao(requisicao);
     }
 }

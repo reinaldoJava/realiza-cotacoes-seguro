@@ -1,7 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.utils;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.PremioMensal;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.OfertaResponse;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.PremioMensalDTO;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.OfertaResponse;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -24,7 +24,7 @@ public class OfertaResponseMock {
                         "Roubo", BigDecimal.valueOf(100000.00)
                 ),
                 Set.of("Encanador", "Eletricista", "Chaveiro 24h", "Assistência Funerária"),
-                new PremioMensal(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
+                new PremioMensalDTO(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
         );
     }
     public static OfertaResponse criarOfertaResponseInativa() {
@@ -41,7 +41,7 @@ public class OfertaResponseMock {
                         "Roubo", BigDecimal.valueOf(100000.00)
                 ),
                 Set.of("Encanador", "Eletricista", "Chaveiro 24h", "Assistência Funerária"),
-                new PremioMensal(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
+                new PremioMensalDTO(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
         );
     }
     public static OfertaResponse criarOfertaResponseComProdutoDiferente() {
@@ -58,7 +58,7 @@ public class OfertaResponseMock {
                         "Roubo", BigDecimal.valueOf(100000.00)
                 ),
                 Set.of("Encanador", "Eletricista", "Chaveiro 24h", "Assistência Funerária"),
-                new PremioMensal(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
+                new PremioMensalDTO(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
         );
     }
 }

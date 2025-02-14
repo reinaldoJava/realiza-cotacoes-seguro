@@ -1,5 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.usecase.service;
 
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.EnviaMensagemCotacaoPort;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -12,8 +13,8 @@ public class CotacaoProducerUseCase {
     public CotacaoProducerUseCase(EnviaMensagemCotacaoPort enviaMensagemCotacaoPort) {
         this.enviaMensagemCotacaoPort = enviaMensagemCotacaoPort;
     }
-    public void enviarMensagem(String mensagem){
-        enviaMensagemCotacaoPort.enviarMensagem(topic, mensagem);
+    public void enviarMensagem(CotacaoDTO cotacaoDTO){
+        enviaMensagemCotacaoPort.enviarCotacao(topic, cotacaoDTO);
     }
 
 }

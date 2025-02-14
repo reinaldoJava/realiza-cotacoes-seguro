@@ -26,6 +26,8 @@ public class CustomerEntity {
     private String email;
 
     private Long phoneNumber;
+    @OneToOne(mappedBy = "customer")
+    private CotacaoEntity cotacao;
 
     // Getters e Setters
     public Long getId() {
@@ -90,5 +92,13 @@ public class CustomerEntity {
 
     public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public CotacaoEntity getCotacao() {
+        return cotacao;
+    }
+
+    public void setCotacao(CotacaoEntity cotacao) {
+        this.cotacao = cotacao;
     }
 }

@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CotacaoController.class)
-class CotacaoControllerTest {
+class CotacaoDTOControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

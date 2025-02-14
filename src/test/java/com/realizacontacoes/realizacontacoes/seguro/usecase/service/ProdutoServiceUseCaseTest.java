@@ -1,7 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.usecase.service;
 
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.ProdutoResponse;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.ProdutoResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.ConsultaProdutoServicePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

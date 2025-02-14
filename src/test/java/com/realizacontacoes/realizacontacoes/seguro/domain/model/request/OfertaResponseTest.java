@@ -1,6 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.domain.model.request;
 
 import com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.exception.ValidationException;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.OfertaResponse;
 import com.realizacontacoes.realizacontacoes.seguro.utils.OfertaResponseMock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

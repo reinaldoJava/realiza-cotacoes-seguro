@@ -58,6 +58,12 @@
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 
+		<!--<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.5.3.Final</version>
+		</dependency>-->
+
 		<!-- Dependência para documentação da API com Swagger -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -83,8 +89,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-avro</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<version>2.18.2</version>
 		</dependency>
 
 		<dependency>
@@ -103,7 +116,11 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>io.confluent</groupId>
+			<artifactId>kafka-avro-serializer</artifactId>
+			<version>7.5.0</version> <!-- Verifique a última versão disponível -->
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -133,6 +150,16 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+		<repository>
+			<id>central</id>
+			<name>Maven Central</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+		<repository>
+			<id>confluent</id>
+			<url>https://packages.confluent.io/maven/</url>
+		</repository>
+
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -167,6 +194,22 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>1.5.5.Final</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>-->
 
 			<plugin>
 				<groupId>org.apache.avro</groupId>

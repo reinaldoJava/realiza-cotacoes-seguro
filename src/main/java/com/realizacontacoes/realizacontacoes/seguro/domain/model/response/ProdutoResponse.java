@@ -1,4 +1,4 @@
-package com.realizacontacoes.realizacontacoes.seguro.domain.model.request;
+package com.realizacontacoes.realizacontacoes.seguro.domain.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

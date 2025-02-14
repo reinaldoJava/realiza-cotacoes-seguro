@@ -1,6 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.utils;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.ProdutoResponse;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.ProdutoResponse;
 import org.instancio.Instancio;
 import org.instancio.Model;
 

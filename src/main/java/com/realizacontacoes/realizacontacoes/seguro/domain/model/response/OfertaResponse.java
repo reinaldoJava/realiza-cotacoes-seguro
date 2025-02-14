@@ -1,8 +1,8 @@
-package com.realizacontacoes.realizacontacoes.seguro.domain.model.request;
+package com.realizacontacoes.realizacontacoes.seguro.domain.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.exception.ValidationException;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.PremioMensal;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.PremioMensalDTO;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -10,13 +10,14 @@ import java.util.Map;
 import java.util.Set;
 
 public record OfertaResponse(String id,
-                             @JsonProperty("product_id") String productId,
+                             @JsonProperty("product_id")
+                             String productId,
                              String name,
                              @JsonProperty("created_at") Instant createdAt,
                              boolean active,
                              Map<String, BigDecimal> coverages,
                              Set<String> assistencias,
-                             PremioMensal premioMensal
+                             PremioMensalDTO premioMensalDTO
 ) {
     public void validarAtividade() {
     if (!this.active) {

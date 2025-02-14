@@ -37,7 +37,7 @@ public class InsuranceRequestMock {
                 request.totalCoverageAmount(),
                 request.coverages(),
                 List.of("Assistencia Invalida"),
-                request.customerRequest()
+                request.customer()
         );
     }
 
@@ -51,7 +51,7 @@ public class InsuranceRequestMock {
                 request.totalCoverageAmount(),
                 request.coverages(),
                 request.assistances(),
-                request.customerRequest()
+                request.customer()
         );
     }
 
@@ -69,7 +69,7 @@ public class InsuranceRequestMock {
                         "Responsabilidade civil", BigDecimal.valueOf(75000.01)
                 ),
                 request.assistances(),
-                request.customerRequest()
+                request.customer()
         );
     }
 

@@ -1,11 +1,11 @@
 package com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 
 public interface CotacaoRepositoryPort {
 
-    void atualizaCotacao(Cotacao cotacao);
-    Cotacao salvarCotacao(Cotacao requisicao);
+    void atualizaCotacao(CotacaoDTO cotacaoDTO);
+    CotacaoDTO salvarCotacao(CotacaoDTO requisicao);
 
 }
 

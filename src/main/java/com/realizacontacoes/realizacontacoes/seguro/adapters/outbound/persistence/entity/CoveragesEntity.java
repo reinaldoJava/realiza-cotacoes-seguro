@@ -1,6 +1,5 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -18,8 +17,9 @@ public class CoveragesEntity {
 
     private BigDecimal amount;
 
-    @ManyToOne
-    @JoinColumn(name = "cotacao_id")
+
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name = "cotacao_id", nullable = false) // Garantindo que não será nulo
     private CotacaoEntity cotacao;
 
     // Getters e Setters
