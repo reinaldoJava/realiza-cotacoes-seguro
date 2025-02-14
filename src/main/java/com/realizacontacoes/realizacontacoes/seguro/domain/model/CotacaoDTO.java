@@ -11,7 +11,7 @@ public record CotacaoDTO(
         String category,
         BigDecimal totalMonthlyPremiumAmount,
         BigDecimal totalCoverageAmount,
-        List<CoverageDTO> coverageDTOS,
+        List<CoverageDTO> coveragesDTO,
         List<String> assistances,
         CustomerDTO customerDTO,
         LocalDateTime createdAt,

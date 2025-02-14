@@ -57,6 +57,37 @@
 
 Esse fluxo segue o padrão da **Arquitetura Hexagonal**, garantindo separação de responsabilidades e flexibilidade na comunicação entre os componentes.
 
+Criado o arquivo docker-compose.yml que contem toda infra estrutura.
 Criado o arquivo mock_api.py for criado simulando os 2 endpoints externos.
 Criado o arquivo init.sql com a criação das tabelas.
-Criado o arquivo docker-compose.yml que contem toda infra estrutura. 
+Rode o ```python docker-compose.yml up --build``` para subir os servicos externos, kafka e banco de dados.
+```python
+curl -g -X POST "http://localhost:9999/cotacao/solicitar" \
+-H "Content-Type: application/json" \
+-d '{
+"product_id": "1b2da7cc-b367-4196-8a78-9cfeec21f587",
+"offer_id": "adc56d77-348c-4bf0-908f-22d402ee715c",
+"category": "HOME",
+"total_monthly_premium_amount": 75.25,
+"total_coverage_amount": 825000.00,
+"coverages": {
+"Incêndio": 250000.00,
+"Desastres naturais": 500000.00,
+"Responsabilidade civil": 75000.00
+},
+"assistances": [
+"Encanador",
+"Eletricista",
+"Chaveiro 24h"
+],
+"customer": {
+"document_number": "362055789002",
+"name": "John Wick",
+"customer_type": "NATURAL",
+"gender": "MALE",
+"date_of_birth": "1973-05-02",
+"email": "johnwick@gmail.com",
+"phone_number": 11950503030
+}
+}'
+```

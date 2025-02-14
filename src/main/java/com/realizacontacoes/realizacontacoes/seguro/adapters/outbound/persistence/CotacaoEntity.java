@@ -1,10 +1,9 @@
-package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity;
+package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity;
+package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence;
 
 import jakarta.persistence.*;
 

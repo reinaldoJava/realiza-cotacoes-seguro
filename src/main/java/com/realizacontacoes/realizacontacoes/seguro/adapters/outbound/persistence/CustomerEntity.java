@@ -1,4 +1,4 @@
-package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity;
+package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence;
 
 import jakarta.persistence.*;
 
@@ -12,7 +12,7 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String documentNumber;
 
     private String name;

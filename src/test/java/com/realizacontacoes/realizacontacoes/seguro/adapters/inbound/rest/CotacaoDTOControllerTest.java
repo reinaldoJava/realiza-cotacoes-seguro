@@ -44,7 +44,6 @@ class CotacaoDTOControllerTest {
     @Test
     void deveRetornar400QuandoRequisicaoInvalida() throws Exception {
         InsuranceRequest invalidRequest = InsuranceRequestMock.criarInsuranceRequestComAssistenciasInvalidas();
-
         mockMvc.perform(post(URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidRequest.toString()))
@@ -56,7 +55,6 @@ class CotacaoDTOControllerTest {
     @Test
     void deveRetornar500QuandoProcessamentoFalhar() throws Exception {
         InsuranceRequest validRequest = InsuranceRequestMock.criarInsuranceRequestValido();
-
         doThrow(new RuntimeException("Erro interno")).when(processaCotacaoPort).processarCotacao(any(InsuranceRequest.class));
 
         mockMvc.perform(post(URL)

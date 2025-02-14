@@ -12,22 +12,22 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class ContacaoKafkaProducer  implements EnviaMensagemCotacaoPort {
+public class CotacaoKafkaProducer implements EnviaMensagemCotacaoPort {
 
     private final KafkaTemplate<String, CotacaoRequest> kafkaTemplate;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ContacaoKafkaProducer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CotacaoKafkaProducer.class);
 
-    public ContacaoKafkaProducer(KafkaTemplate<String, CotacaoRequest> kafkaTemplate) {
+    public CotacaoKafkaProducer(KafkaTemplate<String, CotacaoRequest> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
+    @Override
     public void enviarCotacao(String topic, CotacaoDTO cotacaoDTO) {
-
-        CompletableFuture<SendResult<String, CotacaoRequest>> future =
-                kafkaTemplate.send(topic, CotacaoAvroMapper.toAvro(cotacaoDTO));
+        CotacaoRequest avroCotacao = CotacaoAvroMapper.toAvro(cotacaoDTO);
+        CompletableFuture<SendResult<String, CotacaoRequest>> future = kafkaTemplate.send(topic, avroCotacao);
 
         future.whenComplete((result, ex) -> {
             if (ex == null) {
-                LOGGER.info("Mensagem enviada para Kafka: s" + result.getProducerRecord().value());
+                LOGGER.info("Mensagem enviada para Kafka: " + result.getProducerRecord().value());
             } else {
                 LOGGER.error("Erro ao enviar mensagem para Kafka: " + ex.getMessage());
             }

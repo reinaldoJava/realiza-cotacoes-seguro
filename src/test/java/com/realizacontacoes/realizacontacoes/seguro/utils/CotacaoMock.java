@@ -21,11 +21,11 @@ public class CotacaoMock {
                 .supply(field("category"), () -> "category-1")
                 .supply(field("totalMonthlyPremiumAmount"), () -> BigDecimal.valueOf(100.00))
                 .supply(field("totalCoverageAmount"), () -> BigDecimal.valueOf(10000.00))
-                .supply(field("coverages"), () -> List.of(
+                .supply(field("coveragesDTO"), () -> List.of(
                         new CoverageDTO(1L, "type-1", BigDecimal.valueOf(5000.00), 1L)
                 ))
                 .supply(field("assistances"), () -> List.of("assistance-1"))
-                .supply(field("customer"), () -> new CustomerDTO(
+                .supply(field("customerDTO"), () -> new CustomerDTO(
                         1L, "document-1", "customer-1", "type-1", "gender-1",
                         LocalDate.of(1990, 1, 1), "email@example.com", 1234567890L
                 ))

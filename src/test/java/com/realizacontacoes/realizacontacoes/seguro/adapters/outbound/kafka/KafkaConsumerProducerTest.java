@@ -1,7 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka;
 
 import com.realizacontacoes.realizacontacoes.avro.CotacaoRequest;
-import com.realizacontacoes.realizacontacoes.seguro.config.KafkaConfig;
 import com.realizacontacoes.realizacontacoes.seguro.usecase.service.CotacaoConsumerUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.concurrent.TimeUnit;
@@ -30,12 +28,11 @@ import static org.mockito.Mockito.verify;
 @EmbeddedKafka(
         partitions = 1,
         bootstrapServersProperty = "spring.kafka.bootstrap-servers")
-@ContextConfiguration(classes = {KafkaConfig.class})
 @ImportAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 //TODO Refazer esses testes
 public class KafkaConsumerProducerTest {
 
-    private ContacaoKafkaProducer kafkaProducer;
+    private CotacaoKafkaProducer kafkaProducer;
     @Mock
     private KafkaTemplate<String, CotacaoRequest> kafkaTemplate;
 
@@ -47,7 +44,7 @@ public class KafkaConsumerProducerTest {
 
     @BeforeEach
     public void setup(){
-        kafkaProducer = new ContacaoKafkaProducer(kafkaTemplate);
+        kafkaProducer = new CotacaoKafkaProducer(kafkaTemplate);
         cotacaoKafkaConsumer = new CotacaoKafkaConsumer(cotacaoConsumerUseCase);
     }
     //TODO Arrumar esse teste

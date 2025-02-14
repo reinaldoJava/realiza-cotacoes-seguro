@@ -9,8 +9,10 @@ import jakarta.validation.constraints.NotNull;
 public record CustomerRequest(
         @JsonProperty("document_number")
         String documentNumber,
-        @NotBlank(message = ValidationMessages.NOT_NULL_OR_BLANK) String name,
-        String type,
+        @NotBlank(message = ValidationMessages.NOT_NULL_OR_BLANK)
+        String name,
+        @JsonProperty("customer_type")
+        String customerType,
         String gender,
         @JsonProperty("date_of_birth")
         String dateOfBirth,

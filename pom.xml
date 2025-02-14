@@ -66,6 +66,11 @@
 
 		<!-- Dependência para documentação da API com Swagger -->
 		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.14</version>
@@ -75,7 +80,11 @@
 			<artifactId>springdoc-openapi-webmvc-core</artifactId>
 			<version>1.6.14</version>
 		</dependency>
-
+		<dependency>
+			<groupId>io.confluent</groupId>
+			<artifactId>kafka-avro-serializer</artifactId>
+			<version>7.5.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.wiremock.integrations</groupId>
@@ -116,11 +125,6 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--<dependency>
-			<groupId>io.confluent</groupId>
-			<artifactId>kafka-avro-serializer</artifactId>
-			<version>7.5.0</version> &lt;!&ndash; Verifique a última versão disponível &ndash;&gt;
-		</dependency>-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -159,7 +163,6 @@
 			<id>confluent</id>
 			<url>https://packages.confluent.io/maven/</url>
 		</repository>
-
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -255,6 +258,8 @@
 								<exclude>**/excluded/package/**</exclude>
 								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/RealizaContacoesSeguroApplication.java</exclude>
 								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/config/**</exclude>
+								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/adapters/inbound/exception/**</exclude>
+
 							</excludes>
 						</configuration>
 					</execution>

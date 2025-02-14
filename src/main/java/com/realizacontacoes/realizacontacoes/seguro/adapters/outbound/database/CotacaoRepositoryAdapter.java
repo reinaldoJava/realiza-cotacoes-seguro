@@ -12,8 +12,6 @@ public class CotacaoRepositoryAdapter implements CotacaoRepositoryPort {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CotacaoRepositoryAdapter.class);
 
-    private CotacaoMapper cotacaoMapper = new CotacaoMapper();
-
     private final CotacaoJpaRepository cotacaoJpaRepository;
 
     public CotacaoRepositoryAdapter(CotacaoJpaRepository cotacaoJpaRepository) {
@@ -23,12 +21,12 @@ public class CotacaoRepositoryAdapter implements CotacaoRepositoryPort {
     @Override
     public void atualizaCotacao(CotacaoDTO cotacaoDTO) {
         LOGGER.info("Atualizacao da cotacao no banco de dados");
-        this.cotacaoJpaRepository.save(cotacaoMapper.toEntity(cotacaoDTO));
+        this.cotacaoJpaRepository.save(CotacaoMapper.toEntity(cotacaoDTO));
     }
 
     @Override
     public CotacaoDTO salvarCotacao(CotacaoDTO cotacaoDTO) {
         LOGGER.info("Salva da cotacao no banco de dados");
-        return cotacaoMapper.toDomain(cotacaoJpaRepository.save(CotacaoMapper.toEntity(cotacaoDTO)));
+        return CotacaoMapper.toDomain(cotacaoJpaRepository.save(CotacaoMapper.toEntity(cotacaoDTO)));
     }
 }

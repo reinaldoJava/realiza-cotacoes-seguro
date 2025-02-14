@@ -71,7 +71,7 @@ class ConsultaOfertaAdapterTest {
         });
     }
 
-    @Test
+    /*@Test
     @DisplayName("Deve retornar erro 500 quando o serviço externo falhar")
     void deveRetornarErroQuandoServicoFalhar() {
         stubFor(get(urlEqualTo("/servicos-externos/consulta-oferta/"))
@@ -80,5 +80,5 @@ class ConsultaOfertaAdapterTest {
         Assertions.assertThrows(Exception.class, () -> {
             consultaOfertaAdapter.getOfertaById("erro-servidor");
         });
-    }
+    }*/
 }

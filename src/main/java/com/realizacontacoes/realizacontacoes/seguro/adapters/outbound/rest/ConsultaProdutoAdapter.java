@@ -1,7 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.rest;
 
 
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka.ContacaoKafkaProducer;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.ProdutoResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.ConsultaProdutoServicePort;
 import org.slf4j.Logger;

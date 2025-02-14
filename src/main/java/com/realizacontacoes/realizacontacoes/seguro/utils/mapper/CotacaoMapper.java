@@ -1,10 +1,8 @@
 package com.realizacontacoes.realizacontacoes.seguro.utils.mapper;
 
-import com.realizacontacoes.realizacontacoes.avro.CotacaoResponse;
-import com.realizacontacoes.realizacontacoes.avro.Customer;
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity.CotacaoEntity;
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity.CoveragesEntity;
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.entity.CustomerEntity;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CotacaoEntity;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CoveragesEntity;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CustomerEntity;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CoverageDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CustomerDTO;
@@ -14,11 +12,8 @@ import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.Oferta
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.ProdutoResponse;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 //TODO Refatorar para MapStruct
@@ -62,7 +57,7 @@ public class CotacaoMapper {
         entity.setTotalMonthlyPremiumAmount(record.totalMonthlyPremiumAmount());
         entity.setTotalCoverageAmount(record.totalCoverageAmount());
 
-        List<CoveragesEntity> coveragesEntities = record.coverageDTOS().stream()
+        List<CoveragesEntity> coveragesEntities = record.coveragesDTO().stream()
                 .map(cov -> toCoverageEntity(cov, entity))
                 .collect(Collectors.toList());
         entity.setCoverages(coveragesEntities);
@@ -108,7 +103,7 @@ public class CotacaoMapper {
         entity.setId(record.id());
         entity.setDocumentNumber(record.documentNumber());
         entity.setName(record.name());
-        entity.setType(record.type());
+        entity.setType(record.customerType());
         entity.setGender(record.gender());
         entity.setDateOfBirth(record.dateOfBirth());
         entity.setEmail(record.email());
@@ -127,7 +122,7 @@ public class CotacaoMapper {
                 null,
                 customerRequest.documentNumber(),
                 customerRequest.name(),
-                customerRequest.type(),
+                customerRequest.customerType(),
                 customerRequest.gender(),
                 LocalDate.parse(customerRequest.dateOfBirth()),
                 customerRequest.email(),
@@ -149,21 +144,6 @@ public class CotacaoMapper {
                 LocalDateTime.now()
         );
     }
-    public static CotacaoDTO fromAvro(CotacaoResponse avro) {
-        return new CotacaoDTO(
-                avro.getId(),
-                avro.getProductId().toString(),
-                avro.getOfferId().toString(),
-                avro.getCategory().toString(),
-                BigDecimal.valueOf(avro.getTotalMonthlyPremiumAmount()),
-                BigDecimal.valueOf(avro.getTotalCoverageAmount()),
-                convertCoverages(avro.getCoverages(), avro.getId()),
-                avro.getAssistances().stream().map(CharSequence::toString).toList(),
-                convertCustomer(avro.getCustomer(), avro.getId()),
-                LocalDateTime.parse(avro.getCreatedAt(),DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")),
-                LocalDateTime.parse(avro.getUpdatedAt(),DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))
-        );
-    }
 
     private static List<CoverageDTO> convertCoverages(Map<CharSequence, Double> coverages, Long cotacaoId) {
         return coverages.entrySet().stream()
@@ -176,17 +156,6 @@ public class CotacaoMapper {
                 .collect(Collectors.toList());
     }
 
-    private static CustomerDTO convertCustomer(Customer avro, Long cotacaoId) {
-        return new CustomerDTO(
-                null,  // ID pode ser gerado no banco de dados
-                avro.getDocumentNumber().toString(),
-                avro.getName().toString(),
-                avro.getType().toString(),
-                avro.getGender().toString(),
-                Instant.parse(avro.getDateOfBirth().toString()).atZone(ZoneOffset.UTC).toLocalDate(),
-                avro.getEmail().toString(),
-                avro.getPhoneNumber()
-        );
-    }
+
 
 }

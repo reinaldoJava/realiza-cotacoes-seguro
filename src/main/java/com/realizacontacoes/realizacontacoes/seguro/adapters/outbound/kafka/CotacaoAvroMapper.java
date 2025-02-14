@@ -7,6 +7,7 @@ import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CoverageDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CustomerDTO;
 
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,11 @@ public class CotacaoAvroMapper {
                 .setProductId(dto.productId())
                 .setOfferId(dto.offerId())
                 .setCategory(dto.category())
-                .setCreatedAt(dto.createdAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")))
-                .setUpdatedAt(dto.updatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")))
+                .setCreatedAt(dto.createdAt().toInstant(ZoneOffset.UTC).toString())
+                .setUpdatedAt(dto.updatedAt().toInstant(ZoneOffset.UTC).toString())
                 .setTotalMonthlyPremiumAmount(dto.totalMonthlyPremiumAmount().doubleValue())
                 .setTotalCoverageAmount(dto.totalCoverageAmount().doubleValue())
-                .setCoverages(toAvroCoverages(dto.coverageDTOS()))
+                .setCoverages(toAvroCoverages(dto.coveragesDTO()))
                 .setAssistances(listaDeCharSequence)
                 .setCustomer(toAvroCustomer(dto.customerDTO()))
                 .build();
@@ -41,11 +42,11 @@ public class CotacaoAvroMapper {
         return Customer.newBuilder()
                 .setDocumentNumber(customer.documentNumber())
                 .setName(customer.name())
-                .setType(customer.type())
+                .setType(customer.customerType())
                 .setGender(customer.gender())
-                .setDateOfBirth(customer.dateOfBirth().toString())
+                .setDateOfBirth(customer.dateOfBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .setEmail(customer.email())
-                .setPhoneNumber(customer.phoneNumber())
+                .setPhoneNumber(customer.phoneNumber().toString())
                 .build();
     }
 }
