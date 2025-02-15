@@ -15,7 +15,7 @@ public record OfertaResponse(String id,
                              String name,
                              @JsonProperty("created_at") Instant createdAt,
                              boolean active,
-                             Map<String, BigDecimal> coverages,
+                             Map<String, Double> coverages,
                              Set<String> assistencias,
                              PremioMensalDTO premioMensalDTO
 ) {

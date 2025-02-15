@@ -25,6 +25,9 @@ public class CotacaoEntity {
 
     private BigDecimal totalCoverageAmount;
 
+    @Column(name = "insurance_policy_id", nullable = true)
+    private String insurancePolicyId;
+
     @OneToMany(mappedBy = "cotacao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CoveragesEntity> coverages;
 
@@ -121,7 +124,6 @@ public class CotacaoEntity {
     public LocalDateTime getCreatedAt() {
         return createdAt ;
     }
-
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;

@@ -1,10 +1,11 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka;
 
+import com.realizacontacoes.realizacontacoes.avro.CotacaoResponse;
 import com.realizacontacoes.realizacontacoes.seguro.usecase.service.CotacaoConsumerUseCase;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
@@ -21,15 +22,11 @@ public class CotacaoKafkaConsumer {
         this.cotacaoConsumerUseCase = cotacaoConsumerUseCase;
     }
 
-    @KafkaListener(topics = "topic-external", groupId = "acme")
-    public void consume(@Payload String record) {
-        if (record == null || record.isEmpty()) {
-            LOGGER.error("Payload value must not be empty");
-            throw new IllegalArgumentException("Payload value must not be empty");
-        }
-        this.receivedMessage = record;
+    //TODO Rever se esses campos sao necessarios.
+    @KafkaListener(topics = "${spring.kafka.producer.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consume(ConsumerRecord<String, CotacaoResponse> response) {
         LOGGER.info("received payload='{}'", this.receivedMessage);
-        cotacaoConsumerUseCase.processarCotacao(this.receivedMessage);
+        cotacaoConsumerUseCase.processarCotacao(response.value());
         latch.countDown();
     }
 

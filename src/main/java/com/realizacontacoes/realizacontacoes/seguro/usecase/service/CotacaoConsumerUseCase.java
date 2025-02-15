@@ -1,5 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.usecase.service;
 
+import com.realizacontacoes.realizacontacoes.avro.CotacaoResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRepositoryPort;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.RecebeCotacaoPort;
 import org.slf4j.Logger;
@@ -17,11 +18,11 @@ public class CotacaoConsumerUseCase implements RecebeCotacaoPort {
 
 
     @Override
-    public void processarCotacao(String mensagem) {
-        LOGGER.info("Processando cotação recebida: {}", mensagem);
+    public void processarCotacao(CotacaoResponse response) {
+
         try {
-            //TODO Fazer o parse do json para objeto
-            //cotacaoRepositoryPort.salvarCotacao(new InsuranceRequest());
+            //TODO Converter esse objeto response para um objeto da tabela.
+            //cotacaoRepositoryPort.salvarCotacao(new CotacaoResponse());
 
         } catch (Exception e) {
             LOGGER.error("Erro ao desserializar a cotação: {}", e.getMessage());

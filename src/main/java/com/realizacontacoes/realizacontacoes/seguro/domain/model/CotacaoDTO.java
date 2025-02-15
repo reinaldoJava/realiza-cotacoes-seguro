@@ -1,8 +1,8 @@
 package com.realizacontacoes.realizacontacoes.seguro.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public record CotacaoDTO(
         Long id,
@@ -11,9 +11,9 @@ public record CotacaoDTO(
         String category,
         BigDecimal totalMonthlyPremiumAmount,
         BigDecimal totalCoverageAmount,
-        List<CoverageDTO> coveragesDTO,
+        String createdAt,
+        String updatedAt,
         List<String> assistances,
-        CustomerDTO customerDTO,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        Map<String, Double> coverages,
+        CustomerDTO customerDTO
 ) {}

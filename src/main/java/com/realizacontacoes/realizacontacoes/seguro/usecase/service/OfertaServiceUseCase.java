@@ -14,9 +14,9 @@ public class OfertaServiceUseCase{
     public OfertaServiceUseCase(ConsultaOfertaServicePort consultaOfertaServicePort) {
         this.consultaOfertaServicePort = consultaOfertaServicePort;
     }
-    public OfertaResponse getOferta(String id, String produtoId){
+    public OfertaResponse getOferta(String ofertaId, String produtoId){
 
-        OfertaResponse ofertaResponse = consultaOfertaServicePort.getOfertaById(id);
+        OfertaResponse ofertaResponse = consultaOfertaServicePort.getOfertaById(ofertaId);
         LOGGER.info("Validacoes relacionadas a ofertas");
         ofertaResponse.validarAtividade();
         ofertaResponse.validarProdutoAssociado(produtoId);

@@ -17,7 +17,6 @@ public class CoveragesEntity {
 
     private BigDecimal amount;
 
-
     @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "cotacao_id", nullable = false) // Garantindo que não será nulo
     private CotacaoEntity cotacao;

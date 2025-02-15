@@ -17,36 +17,41 @@ import java.util.stream.Collectors;
 public class CotacaoAvroMapper {
 
     public static CotacaoRequest toAvro(CotacaoDTO dto) {
-        List<CharSequence> listaDeCharSequence = new ArrayList<>(dto.assistances());
+        Customer customer = Customer.newBuilder()
+                .setDocumentNumber(dto.customerDTO().documentNumber())
+                .setName(dto.customerDTO().name())
+                .setType(dto.customerDTO().customerType())
+                .setGender(dto.customerDTO().gender())
+                .setDateOfBirth(dto.customerDTO().dateOfBirth().toString())
+                .setEmail(dto.customerDTO().email())
+                .setPhoneNumber(dto.customerDTO().phoneNumber())
+                .build();
+
+        // Conversão do map de coberturas
+        Map<CharSequence, Double> coverages = dto.coverages().entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        // Conversão da lista de assistências
+        List<CharSequence> assistances = dto.assistances().stream()
+                .map(String::new)
+                .collect(Collectors.toList());
+
+        // Criação da classe CotacaoRequest
         return CotacaoRequest.newBuilder()
                 .setId(dto.id())
                 .setProductId(dto.productId())
                 .setOfferId(dto.offerId())
                 .setCategory(dto.category())
-                .setCreatedAt(dto.createdAt().toInstant(ZoneOffset.UTC).toString())
-                .setUpdatedAt(dto.updatedAt().toInstant(ZoneOffset.UTC).toString())
+                .setCreatedAt(dto.createdAt())
+                .setUpdatedAt(dto.updatedAt())
                 .setTotalMonthlyPremiumAmount(dto.totalMonthlyPremiumAmount().doubleValue())
                 .setTotalCoverageAmount(dto.totalCoverageAmount().doubleValue())
-                .setCoverages(toAvroCoverages(dto.coveragesDTO()))
-                .setAssistances(listaDeCharSequence)
-                .setCustomer(toAvroCustomer(dto.customerDTO()))
-                .build();
-    }
-
-    private static Map<CharSequence, Double> toAvroCoverages(List<CoverageDTO> coverages) {
-        return coverages.stream()
-                .collect(Collectors.toMap(CoverageDTO::type, coverage -> coverage.amount().doubleValue()));
-    }
-
-    private static Customer toAvroCustomer(CustomerDTO customer) {
-        return Customer.newBuilder()
-                .setDocumentNumber(customer.documentNumber())
-                .setName(customer.name())
-                .setType(customer.customerType())
-                .setGender(customer.gender())
-                .setDateOfBirth(customer.dateOfBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .setEmail(customer.email())
-                .setPhoneNumber(customer.phoneNumber().toString())
+                .setCoverages(coverages)
+                .setAssistances(assistances)
+                .setCustomer(customer)
                 .build();
     }
 }
