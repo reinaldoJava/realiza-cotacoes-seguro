@@ -4,6 +4,7 @@ import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistenc
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.utils.CotacaoMock;
 import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapper;
+import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapperManual;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,15 +21,16 @@ public class CotacaoRepositoryAdapterTest {
 
     @Autowired
     private CotacaoJpaRepository cotacaoJpaRepository;
-
-    private CotacaoMapper cotacaoMapper = new CotacaoMapper();
+    @Autowired
+    private CotacaoMapper cotacaoMapper;
+    private CotacaoMapperManual cotacaoMapperManual = new CotacaoMapperManual();
 
     private CotacaoRepositoryAdapter cotacaoRepositoryAdapter;
     private CotacaoDTO cotacaoDTO = CotacaoMock.createMockCotacao();
 
     @BeforeEach
     public void init() {
-        cotacaoRepositoryAdapter = new CotacaoRepositoryAdapter(cotacaoJpaRepository);
+        cotacaoRepositoryAdapter = new CotacaoRepositoryAdapter(cotacaoJpaRepository, cotacaoMapper);
     }
 
     @Test
@@ -46,12 +48,12 @@ public class CotacaoRepositoryAdapterTest {
     public void deveAtualizarCotacao() {
 
         CotacaoDTO cotacaoSalva = cotacaoRepositoryAdapter.salvarCotacao(cotacaoDTO);
-        CotacaoEntity cotacaoEntity = CotacaoMapper.toEntity(cotacaoSalva);
+        CotacaoEntity cotacaoEntity = cotacaoMapper.toEntity(cotacaoSalva);
         cotacaoEntity.setProductId("novo_id");
-        CotacaoDTO cotacaoSalvaNova = CotacaoMapper.toDomain(cotacaoEntity);
+        CotacaoDTO cotacaoSalvaNova = cotacaoMapper.toDomain(cotacaoEntity);
         cotacaoRepositoryAdapter.atualizaCotacao(cotacaoSalvaNova);
 
-        CotacaoDTO cotacaoAtualizada = cotacaoJpaRepository.findById(cotacaoSalvaNova.id()).map(CotacaoMapper::toDomain).orElse(null);
+        CotacaoDTO cotacaoAtualizada = cotacaoJpaRepository.findById(cotacaoSalvaNova.id()).map(cotacaoMapper::toDomain).orElse(null);
 
         assertNotNull(cotacaoAtualizada);
         assertEquals(cotacaoSalvaNova.productId(), cotacaoAtualizada.productId());

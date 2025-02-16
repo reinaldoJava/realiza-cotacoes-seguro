@@ -4,12 +4,7 @@ package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka;
 import com.realizacontacoes.realizacontacoes.avro.CotacaoRequest;
 import com.realizacontacoes.realizacontacoes.avro.Customer;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CoverageDTO;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CustomerDTO;
 
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
