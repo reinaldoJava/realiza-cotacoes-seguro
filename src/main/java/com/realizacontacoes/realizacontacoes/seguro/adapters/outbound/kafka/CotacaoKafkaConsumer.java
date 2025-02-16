@@ -1,7 +1,10 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka;
 
-import com.realizacontacoes.realizacontacoes.avro.CotacaoResponse;
+import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
+import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
 import com.realizacontacoes.realizacontacoes.seguro.usecase.service.CotacaoConsumerUseCase;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +26,9 @@ public class CotacaoKafkaConsumer {
     }
 
     //TODO Rever se esses campos sao necessarios.
-    @KafkaListener(topics = "${spring.kafka.producer.topic}", groupId = "${spring.kafka.consumer.group-id}")
-    public void consume(ConsumerRecord<String, CotacaoResponse> response) {
-        LOGGER.info("received payload='{}'", this.receivedMessage);
+    @KafkaListener(topics = "${spring.kafka.consumer.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consume(ConsumerRecord<String, CotacaoAvro> response) {
+        LOGGER.info("received payload='{}'", response.value());
         cotacaoConsumerUseCase.processarCotacao(response.value());
         latch.countDown();
     }

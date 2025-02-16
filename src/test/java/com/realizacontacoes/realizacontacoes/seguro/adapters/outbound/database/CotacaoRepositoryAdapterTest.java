@@ -1,9 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database;
 
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CotacaoEntity;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.utils.CotacaoMock;
-import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapper;
 import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapperManual;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -21,8 +19,7 @@ public class CotacaoRepositoryAdapterTest {
 
     @Autowired
     private CotacaoJpaRepository cotacaoJpaRepository;
-    @Autowired
-    private CotacaoMapper cotacaoMapper;
+
     private CotacaoMapperManual cotacaoMapperManual = new CotacaoMapperManual();
 
     private CotacaoRepositoryAdapter cotacaoRepositoryAdapter;
@@ -30,7 +27,7 @@ public class CotacaoRepositoryAdapterTest {
 
     @BeforeEach
     public void init() {
-        cotacaoRepositoryAdapter = new CotacaoRepositoryAdapter(cotacaoJpaRepository, cotacaoMapper);
+        cotacaoRepositoryAdapter = new CotacaoRepositoryAdapter(cotacaoJpaRepository);
     }
 
     @Test

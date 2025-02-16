@@ -1,9 +1,8 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database;
 
-import com.realizacontacoes.realizacontacoes.avro.CotacaoResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRepositoryPort;
-import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapper;
+import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapperManual;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -15,23 +14,21 @@ public class CotacaoRepositoryAdapter implements CotacaoRepositoryPort {
 
     private final CotacaoJpaRepository cotacaoJpaRepository;
 
-    private final CotacaoMapper cotacaoMapper;
-
-    public CotacaoRepositoryAdapter(CotacaoJpaRepository cotacaoJpaRepository, CotacaoMapper cotacaoMapper) {
+    public CotacaoRepositoryAdapter(CotacaoJpaRepository cotacaoJpaRepository) {
         this.cotacaoJpaRepository = cotacaoJpaRepository;
-        this.cotacaoMapper = cotacaoMapper;
+
     }
 
     @Override
-    public void atualizaCotacao(CotacaoResponse response) {
+    public void atualizaCotacao(CotacaoDTO cotacaoDTO) {
         LOGGER.info("Atualizacao da cotacao no banco de dados");
-        //this.cotacaoJpaRepository.save();
-        LOGGER.info("ME CONTRATE POR FAVOR!!!!");
+        this.cotacaoJpaRepository.save(CotacaoMapperManual.toEntity(cotacaoDTO));
+        LOGGER.info("ME CONTRATE!!!!");
     }
 
     @Override
     public CotacaoDTO salvarCotacao(CotacaoDTO cotacaoDTO) {
         LOGGER.info("Salva da cotacao no banco de dados");
-        return cotacaoMapper.toDomain(cotacaoJpaRepository.save(cotacaoMapper.toEntity(cotacaoDTO)));
+        return CotacaoMapperManual.toDomain(cotacaoJpaRepository.save(CotacaoMapperManual.toEntity(cotacaoDTO)));
     }
 }

@@ -1,9 +1,10 @@
 {
   "type": "record",
-  "name": "CotacaoRequest",
+  "name": "CotacaoAvro",
   "namespace": "com.realizacontacoes.realizacontacoes.avro",
   "fields": [
     {"name": "id", "type": "long"},
+    {"name": "insurance_policy_id","type": "string","default": ""},
     {"name": "product_id", "type": "string"},
     {"name": "offer_id", "type": "string"},
     {"name": "category", "type": "string", "default": ""},

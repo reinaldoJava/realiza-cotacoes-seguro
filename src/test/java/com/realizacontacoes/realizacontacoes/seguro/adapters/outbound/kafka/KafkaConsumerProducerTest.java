@@ -1,6 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka;
 
-import com.realizacontacoes.realizacontacoes.avro.CotacaoRequest;
+import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
 import com.realizacontacoes.realizacontacoes.seguro.usecase.service.CotacaoConsumerUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +34,7 @@ public class KafkaConsumerProducerTest {
 
     private CotacaoKafkaProducer kafkaProducer;
     @Mock
-    private KafkaTemplate<String, CotacaoRequest> kafkaTemplate;
+    private KafkaTemplate<String, CotacaoAvro> kafkaTemplate;
 
     private String topic ="topic-external";
 
@@ -55,7 +55,7 @@ public class KafkaConsumerProducerTest {
         String mensagem = "Olá, Kafka!";
         //kafkaProducer.enviarMensagem(topic,mensagem);
 
-        verify(kafkaTemplate, times(1)).send(topic, new CotacaoRequest());
+        verify(kafkaTemplate, times(1)).send(topic, new CotacaoAvro());
     }
 
 

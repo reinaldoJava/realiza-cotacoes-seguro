@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 //TODO Refatorar para MapStruct
@@ -59,7 +60,7 @@ public class CotacaoMapperManual {
 
     public static CotacaoDTO toDomain(CotacaoEntity entity) {
         CustomerDTO customerDTO = new CustomerDTO(
-                entity.getCustomer().getId(),
+                Optional.ofNullable(entity.getCustomer().getId()),
                 entity.getCustomer().getDocumentNumber(),
                 entity.getCustomer().getName(),
                 entity.getCustomer().getType(),
@@ -80,6 +81,8 @@ public class CotacaoMapperManual {
         return new CotacaoDTO(
                 entity.getId(),
                 entity.getProductId(),
+                entity.getInsurancePolicyId() == null ?Optional.empty():
+                Optional.of(entity.getInsurancePolicyId()),
                 entity.getOfferId(),
                 entity.getCategory(),
                 entity.getTotalMonthlyPremiumAmount(),
@@ -109,6 +112,7 @@ public class CotacaoMapperManual {
         return new CotacaoDTO(
                 null,
                 produtoResponse.id(),
+                Optional.empty(),
                 ofertaResponse.id(),
                 insuranceRequest.category(),
                 insuranceRequest.totalMonthlyPremiumAmount(),

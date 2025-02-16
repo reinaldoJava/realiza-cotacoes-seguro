@@ -48,7 +48,6 @@ public class CotacaoEntity {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-        // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -97,6 +96,14 @@ public class CotacaoEntity {
         this.totalCoverageAmount = totalCoverageAmount;
     }
 
+    public String getInsurancePolicyId() {
+        return insurancePolicyId;
+    }
+
+    public void setInsurancePolicyId(String insurancePolicyId) {
+        this.insurancePolicyId = insurancePolicyId;
+    }
+
     public List<CoveragesEntity> getCoverages() {
         return coverages;
     }
@@ -122,7 +129,11 @@ public class CotacaoEntity {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt ;
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {

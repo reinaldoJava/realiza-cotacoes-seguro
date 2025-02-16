@@ -9,6 +9,7 @@ import org.instancio.Model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.instancio.Select.field;
 
@@ -26,7 +27,7 @@ public class CotacaoMock {
                 ))
                 .supply(field("assistances"), () -> List.of("assistance-1"))
                 .supply(field("customerDTO"), () -> new CustomerDTO(
-                        1L, "document-1", "customer-1", "type-1", "gender-1",
+                        Optional.of(1L), "document-1", "customer-1", "type-1", "gender-1",
                         LocalDate.of(1990, 1, 1), "email@example.com", 1234567890L
                 ))
                 .toModel();
