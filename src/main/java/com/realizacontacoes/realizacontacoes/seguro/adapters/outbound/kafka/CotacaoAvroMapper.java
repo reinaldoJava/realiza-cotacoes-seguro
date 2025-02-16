@@ -15,7 +15,7 @@ public class CotacaoAvroMapper {
         Customer customer = Customer.newBuilder()
                 .setDocumentNumber(dto.customerDTO().documentNumber())
                 .setName(dto.customerDTO().name())
-                .setType(dto.customerDTO().customerType())
+                .setType(dto.customerDTO().type())
                 .setGender(dto.customerDTO().gender())
                 .setDateOfBirth(dto.customerDTO().dateOfBirth().toString())
                 .setEmail(dto.customerDTO().email())

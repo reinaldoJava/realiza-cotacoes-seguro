@@ -24,7 +24,7 @@ public class CotacaoMapperManual {
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setDocumentNumber(dto.customerDTO().documentNumber());
         customerEntity.setName(dto.customerDTO().name());
-        customerEntity.setType(dto.customerDTO().customerType());
+        customerEntity.setType(dto.customerDTO().type());
         customerEntity.setGender(dto.customerDTO().gender());
         customerEntity.setDateOfBirth(dto.customerDTO().dateOfBirth());
         customerEntity.setEmail(dto.customerDTO().email());
@@ -98,7 +98,7 @@ public class CotacaoMapperManual {
                 null,
                 customerRequest.documentNumber(),
                 customerRequest.name(),
-                customerRequest.customerType(),
+                customerRequest.type(),
                 customerRequest.gender(),
                 LocalDate.parse(customerRequest.dateOfBirth()),
                 customerRequest.email(),

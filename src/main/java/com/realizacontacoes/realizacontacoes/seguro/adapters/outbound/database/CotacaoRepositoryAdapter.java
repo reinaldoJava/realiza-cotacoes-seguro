@@ -1,5 +1,6 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database;
 
+import com.realizacontacoes.realizacontacoes.avro.CotacaoResponse;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRepositoryPort;
 import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapper;
@@ -22,9 +23,10 @@ public class CotacaoRepositoryAdapter implements CotacaoRepositoryPort {
     }
 
     @Override
-    public void atualizaCotacao(CotacaoDTO cotacaoDTO) {
+    public void atualizaCotacao(CotacaoResponse response) {
         LOGGER.info("Atualizacao da cotacao no banco de dados");
-        this.cotacaoJpaRepository.save(cotacaoMapper.toEntity(cotacaoDTO));
+        //this.cotacaoJpaRepository.save();
+        LOGGER.info("ME CONTRATE POR FAVOR!!!!");
     }
 
     @Override

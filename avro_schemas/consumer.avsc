@@ -13,6 +13,7 @@
     {"name": "total_monthly_premium_amount", "type": "double", "default": 0.0},
     {"name": "total_coverage_amount", "type": "double", "default": 0.0},
     {"name": "coverages", "type": {"type": "map", "values": "double"}, "default": {}},
+    {"name": "assistances", "type": {"type": "array", "items": "string"}, "default": []},
     {
       "name": "customer",
       "type": {

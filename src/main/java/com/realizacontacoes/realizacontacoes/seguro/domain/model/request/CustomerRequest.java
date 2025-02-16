@@ -11,8 +11,8 @@ public record CustomerRequest(
         String documentNumber,
         @NotBlank(message = ValidationMessages.NOT_NULL_OR_BLANK)
         String name,
-        @JsonProperty("customer_type")
-        String customerType,
+        @JsonProperty("type")
+        String type,
         String gender,
         @JsonProperty("date_of_birth")
         String dateOfBirth,
