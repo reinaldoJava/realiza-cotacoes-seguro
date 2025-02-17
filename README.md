@@ -6,37 +6,39 @@ Este documento descreve o fluxo completo do processo de cotação, desde o receb
 
 ### 1️⃣ Recebimento da Requisição (API REST)
 - O cliente envia uma requisição para a API REST de cotação.
-- O `CotacaoController` recebe os dados e os encaminha para o `CotacaoService`.
+- O `CotacaoController` recebe os dados e os encaminha para o `ProcessaCotacaoUseCase`.
 
 ### 2️⃣ Busca de Informações do Produto
-- O `ProdutoServiceAdapter` faz uma chamada HTTP ao `ProdutoServiceExternal` para obter informações do produto.
+- O `ConsultaProdutoAdapter` faz uma chamada HTTP ao `ConsultaProdutoServicePort` para obter informações do produto.
 - Os dados do produto são retornados.
 
 ### 3️⃣ Busca de Informações da Oferta
-- O `OfertaServiceAdapter` faz uma chamada HTTP ao `OfertaServiceExternal` para obter informações da oferta.
+- O `ConsultaOfertaAdapter` faz uma chamada HTTP ao `ConsultaOfertaServicePort` para obter informações da oferta.
 - Os dados da oferta são retornados.
 
 ### 4️⃣ Validações
-O `CotacaoService` realiza as seguintes validações:
+O `OfertaValidator` realiza as seguintes validações:
 - Verifica se as ofertas existem e estão ativas.
-- Confirma se as assistências informadas pertencem à oferta.
+- Confirma se as coberturas informadas pertencem à oferta.
 - Garante que o valor do prêmio mensal está dentro dos limites permitidos.
 - Valida se o valor total das coberturas corresponde à soma das coberturas informadas.
+- Valida as assistencias.
+- Valida se o prêmio mensal
+- Valida se o total das cobeturas correspondes ao valor informado na cobertura.
 
 ### 5️⃣ Persistência no Banco de Dados
-- O `CotacaoService` chama a porta de saída `CotacaoRepositoryPort`.
+- O `ProcessaCotacaoUseCase` chama o `CotacaoDataBaseUseCase`.
 - O `CotacaoRepositoryAdapter` salva os dados da cotação no banco via `CotacaoJpaRepository`.
 
 ### 6️⃣ Produção de Mensagem no Kafka
-- O `CotacaoService` chama a porta de saída `CotacaoKafkaProducerPort`.
-- O `CotacaoKafkaProducer` publica a mensagem no Kafka.
+- O `ProcessaCotacaoUseCase` chama o `CotacaoProducerUseCase`.
+- O `CotacaoKafkaProducer` publica a mensagem no Kafka no tópico `cotacao-topic`.
 
 ### 7️⃣ Consumo da Mensagem do Kafka (com `policyId`)
-- O `CotacaoKafkaConsumer` escuta as mensagens no tópico do Kafka.
-- Recebe a resposta contendo o `policyId`.
+- O `CotacaoKafkaConsumer`  consome a mensagem no Kafka no tópico `cotacao-topic`.
 
 ### 8️⃣ Atualização do Banco de Dados com `policyId`
-- O `CotacaoKafkaConsumer` chama a porta de saída `CotacaoRepositoryPort`.
+- O `CotacaoKafkaConsumer` chama o `CotacaoConsumerUseCase`.
 - O `CotacaoRepositoryAdapter` atualiza a cotação com o `policyId`, finalizando o processo com sucesso.
 
 ## 🔄 Resumo do Fluxo
@@ -60,7 +62,7 @@ O ambiente pode ser configurado utilizando Docker para gerenciar os serviços ex
 ### 📌 Componentes Disponíveis
 - **Docker Compose**: Arquivo `docker-compose.yml` com a infraestrutura completa.
 - **Mock API**: Arquivo `mock_api.py` simulando os endpoints externos.
-- **Banco de Dados**: Arquivo `init.sql` contendo a criação das tabelas.
+- **Banco de Dados**: Arquivo `init.sql` contendo a criação das tabelas (opcional pois, o application.properties usa o `spring.jpa.hibernate.ddl-auto=update` ).
 
 ### 🔧 Como Subir a Infraestrutura
 Execute o seguinte comando para iniciar os serviços externos, incluindo Kafka e o banco de dados:
