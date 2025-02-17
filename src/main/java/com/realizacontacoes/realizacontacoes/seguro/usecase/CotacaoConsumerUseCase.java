@@ -1,4 +1,4 @@
-package com.realizacontacoes.realizacontacoes.seguro.usecase.service;
+package com.realizacontacoes.realizacontacoes.seguro.usecase;
 
 import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRepositoryPort;

@@ -2,10 +2,8 @@ package com.realizacontacoes.realizacontacoes.seguro.utils.mapper;
 
 
 import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
-import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
-import com.realizacontacoes.realizacontacoes.avro.Customer;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CustomerDTO;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Customer;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class CotacaoAvroMapper {
 
-    public static CotacaoAvro toAvro(CotacaoDTO dto) {
+    public static CotacaoAvro toAvro(Cotacao dto) {
         return CotacaoAvro.newBuilder()
                 .setId(dto.id())
                 .setProductId(dto.productId())
@@ -28,31 +26,15 @@ public class CotacaoAvroMapper {
                 .setTotalCoverageAmount(dto.totalCoverageAmount().doubleValue())
                 .setCoverages(convertCoverages(dto.coverages()))
                 .setAssistances(convertAssistances(dto.assistances()))
-                .setCustomer(convertCustomer(dto.customerDTO()))
+                .setCustomer(convertCustomer(dto.customer()))
                 .build();
     }
 
-    public static CotacaoDTO toRequestDTO(CotacaoAvro request) {
-        return new CotacaoDTO(
-                request.getId(),
-                request.getProductId().toString(),
-                Optional.empty(),
-                request.getOfferId().toString(),
-                request.getCategory().toString(),
-                BigDecimal.valueOf(request.getTotalMonthlyPremiumAmount()),
-                BigDecimal.valueOf(request.getTotalCoverageAmount()),
-                request.getCreatedAt().toString(),
-                request.getUpdatedAt().toString(),
-                convertAssistancesToList(request.getAssistances()),
-                convertCoveragesToMap(request.getCoverages()),
-                convertCustomerToDTO(request.getCustomer())
-        );
-    }
-    public static CotacaoDTO toResponseDTO(CotacaoAvro response) {
-        return new CotacaoDTO(
+    public static Cotacao toResponseDTO(CotacaoAvro response) {
+        return new Cotacao(
                 response.getId(),
                 response.getProductId().toString(),
-                Optional.of(response.getInsurancePolicyId().toString()),
+                response.getInsurancePolicyId().toString(),
                 response.getOfferId().toString(),
                 response.getCategory().toString(),
                 BigDecimal.valueOf(response.getTotalMonthlyPremiumAmount()),
@@ -65,20 +47,20 @@ public class CotacaoAvroMapper {
         );
     }
 
-    private static Customer convertCustomer(CustomerDTO customerDTO) {
-        return Customer.newBuilder()
-                .setDocumentNumber(customerDTO.documentNumber())
-                .setName(customerDTO.name())
-                .setType(customerDTO.type())
-                .setGender(customerDTO.gender())
-                .setDateOfBirth(customerDTO.dateOfBirth().toString())
-                .setEmail(customerDTO.email())
-                .setPhoneNumber(customerDTO.phoneNumber())
+    private static com.realizacontacoes.realizacontacoes.avro.Customer convertCustomer(Customer customer) {
+        return com.realizacontacoes.realizacontacoes.avro.Customer.newBuilder()
+                .setDocumentNumber(customer.documentNumber())
+                .setName(customer.name())
+                .setType(customer.type())
+                .setGender(customer.gender())
+                .setDateOfBirth(customer.dateOfBirth().toString())
+                .setEmail(customer.email())
+                .setPhoneNumber(customer.phoneNumber())
                 .build();
     }
 
-    private static CustomerDTO convertCustomerToDTO(Customer customer) {
-        return new CustomerDTO(
+    private static Customer convertCustomerToDTO(com.realizacontacoes.realizacontacoes.avro.Customer customer) {
+        return new Customer(
                 Optional.empty(),//ID vazio
                 customer.getDocumentNumber().toString(),
                 customer.getName().toString(),

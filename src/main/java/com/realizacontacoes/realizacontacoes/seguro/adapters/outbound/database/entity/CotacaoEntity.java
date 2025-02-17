@@ -1,4 +1,4 @@
-package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence;
+package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

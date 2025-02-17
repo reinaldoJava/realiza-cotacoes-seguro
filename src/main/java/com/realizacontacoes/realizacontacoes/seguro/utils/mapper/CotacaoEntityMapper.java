@@ -1,10 +1,10 @@
 package com.realizacontacoes.realizacontacoes.seguro.utils.mapper;
 
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CotacaoEntity;
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CoveragesEntity;
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CustomerEntity;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CustomerDTO;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database.entity.CotacaoEntity;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database.entity.CoveragesEntity;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database.entity.CustomerEntity;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Customer;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.CustomerRequest;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.InsuranceRequest;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.OfertaResponse;
@@ -18,18 +18,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+//TODO Criar jeito de implementar a atualizacao do updatedAt
+public class CotacaoEntityMapper {
 
-//TODO Refatorar para MapStruct
-public class CotacaoMapperManual {
-    public static CotacaoEntity toEntity(CotacaoDTO dto) {
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+
+    public static CotacaoEntity toEntity(Cotacao dto) {
         CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setDocumentNumber(dto.customerDTO().documentNumber());
-        customerEntity.setName(dto.customerDTO().name());
-        customerEntity.setType(dto.customerDTO().type());
-        customerEntity.setGender(dto.customerDTO().gender());
-        customerEntity.setDateOfBirth(dto.customerDTO().dateOfBirth());
-        customerEntity.setEmail(dto.customerDTO().email());
-        customerEntity.setPhoneNumber(dto.customerDTO().phoneNumber());
+        customerEntity.setDocumentNumber(dto.customer().documentNumber());
+        customerEntity.setName(dto.customer().name());
+        customerEntity.setType(dto.customer().type());
+        customerEntity.setGender(dto.customer().gender());
+        customerEntity.setDateOfBirth(dto.customer().dateOfBirth());
+        customerEntity.setEmail(dto.customer().email());
+        customerEntity.setPhoneNumber(dto.customer().phoneNumber());
 
         List<CoveragesEntity> coveragesEntities = dto.coverages().entrySet().stream()
                 .map(entry -> {
@@ -38,7 +40,6 @@ public class CotacaoMapperManual {
                     coverageEntity.setAmount(BigDecimal.valueOf(entry.getValue()));
                     return coverageEntity;
                 }).collect(Collectors.toList());
-
         CotacaoEntity entity = new CotacaoEntity();
         entity.setId(dto.id());
         entity.setProductId(dto.productId());
@@ -58,8 +59,8 @@ public class CotacaoMapperManual {
         return entity;
     }
 
-    public static CotacaoDTO toDomain(CotacaoEntity entity) {
-        CustomerDTO customerDTO = new CustomerDTO(
+    public static Cotacao toDomain(CotacaoEntity entity) {
+        Customer customer = new Customer(
                 Optional.ofNullable(entity.getCustomer().getId()),
                 entity.getCustomer().getDocumentNumber(),
                 entity.getCustomer().getName(),
@@ -78,26 +79,24 @@ public class CotacaoMapperManual {
 
         List<String> assistances = entity.getAssistances();
 
-        return new CotacaoDTO(
+        return new Cotacao(
                 entity.getId(),
                 entity.getProductId(),
-                entity.getInsurancePolicyId() == null ?Optional.empty():
-                Optional.of(entity.getInsurancePolicyId()),
+                entity.getInsurancePolicyId() == null ? "" :entity.getInsurancePolicyId(),
                 entity.getOfferId(),
                 entity.getCategory(),
                 entity.getTotalMonthlyPremiumAmount(),
                 entity.getTotalCoverageAmount(),
-                entity.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                entity.getUpdatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                entity.getCreatedAt().format(dateTimeFormatter),
+                entity.getUpdatedAt().format(dateTimeFormatter),
                 assistances,
                 coverages,
-                customerDTO
+                customer
         );
     }
-    public static CotacaoDTO criarCotacao(ProdutoResponse produtoResponse, OfertaResponse ofertaResponse, InsuranceRequest insuranceRequest) {
-        // Criando o objeto Customer
+    public static Cotacao criarCotacao(ProdutoResponse produtoResponse, OfertaResponse ofertaResponse, InsuranceRequest insuranceRequest) {
         CustomerRequest customerRequest = insuranceRequest.customer();
-        CustomerDTO customerDTO = new CustomerDTO(
+        Customer customer = new Customer(
                 null,
                 customerRequest.documentNumber(),
                 customerRequest.name(),
@@ -108,11 +107,10 @@ public class CotacaoMapperManual {
                 customerRequest.phoneNumber()
         );
 
-        // Criando e retornando o objeto Cotacao
-        return new CotacaoDTO(
+        return new Cotacao(
                 null,
                 produtoResponse.id(),
-                Optional.empty(),
+                "",
                 ofertaResponse.id(),
                 insuranceRequest.category(),
                 insuranceRequest.totalMonthlyPremiumAmount(),
@@ -121,7 +119,7 @@ public class CotacaoMapperManual {
                 LocalDateTime.now().toString(),
                 insuranceRequest.assistances(),
                 ofertaResponse.coverages(),
-                customerDTO
+                customer
 
         );
     }

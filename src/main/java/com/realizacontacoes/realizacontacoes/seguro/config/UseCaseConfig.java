@@ -1,11 +1,12 @@
 package com.realizacontacoes.realizacontacoes.seguro.config;
 
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.service.OfertaValidator;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.input.ProcessaCotacaoPort;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.ConsultaOfertaServicePort;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.ConsultaProdutoServicePort;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.CotacaoRepositoryPort;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.ouput.EnviaMensagemCotacaoPort;
-import com.realizacontacoes.realizacontacoes.seguro.usecase.service.*;
+import com.realizacontacoes.realizacontacoes.seguro.usecase.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -30,17 +31,23 @@ public class UseCaseConfig {
         return new CotacaoProducerUseCase(enviaMensagemCotacaoPort);
     }
     @Bean
-    public ProcessaCotacaoUseCase processaCotacaoService(OfertaServiceUseCase ofertaServiceUseCase, ProdutoServiceUseCase produtoServiceUseCase, SalvaCotacaoUseCase salvaCotacaoUseCase, CotacaoProducerUseCase cotacaoProducerUseCase) {
-        return new ProcessaCotacaoUseCase(ofertaServiceUseCase,produtoServiceUseCase,salvaCotacaoUseCase,cotacaoProducerUseCase);
+    public ProcessaCotacaoUseCase processaCotacaoService(OfertaServiceUseCase ofertaServiceUseCase, ProdutoServiceUseCase produtoServiceUseCase,
+                                                         CotacaoDataBaseUseCase cotacaoDataBaseUseCase, CotacaoProducerUseCase cotacaoProducerUseCase) {
+        return new ProcessaCotacaoUseCase(ofertaServiceUseCase,produtoServiceUseCase,
+                cotacaoDataBaseUseCase,cotacaoProducerUseCase, ofertaValidator());
     }
     @Bean
-    public SalvaCotacaoUseCase salvaCotacaoUseCase(CotacaoRepositoryPort cotacaoRepositoryPort){
-        return new SalvaCotacaoUseCase(cotacaoRepositoryPort);
+    public CotacaoDataBaseUseCase salvaCotacaoUseCase(CotacaoRepositoryPort cotacaoRepositoryPort){
+        return new CotacaoDataBaseUseCase(cotacaoRepositoryPort);
     }
 
     @Bean
     @DependsOn("processaCotacaoService")
     public ProcessaCotacaoPort processaCotacaoPort(ProcessaCotacaoUseCase processaCotacaoUseCase) {
         return processaCotacaoUseCase;
+    }
+    @Bean
+    public OfertaValidator ofertaValidator() {
+        return new OfertaValidator();
     }
 }

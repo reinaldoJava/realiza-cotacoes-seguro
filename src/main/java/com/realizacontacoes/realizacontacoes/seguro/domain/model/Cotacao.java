@@ -3,12 +3,11 @@ package com.realizacontacoes.realizacontacoes.seguro.domain.model;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-public record CotacaoDTO(
+public record Cotacao(
         Long id,
         String productId,
-        Optional<String> insurancePolicyId,
+        String insurancePolicyId,
         String offerId,
         String category,
         BigDecimal totalMonthlyPremiumAmount,
@@ -17,5 +16,6 @@ public record CotacaoDTO(
         String updatedAt,
         List<String> assistances,
         Map<String, Double> coverages,
-        CustomerDTO customerDTO
-) {}
+        Customer customer
+) {
+}

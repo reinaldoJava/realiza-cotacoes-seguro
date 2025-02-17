@@ -1,64 +1,48 @@
 package com.realizacontacoes.realizacontacoes.seguro.utils;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.PremioMensalDTO;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.PremioMensal;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.OfertaResponse;
+import org.instancio.Instancio;
+import org.instancio.Select;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class OfertaResponseMock {
 
-    public static OfertaResponse criarOfertaResponseAtiva() {
-        return new OfertaResponse(
-                "adc56d77-348c-4bf0-908f-22d402ee715c",
-                "1b2da7cc-b367-4196-8a78-9cfeec21f587",
-                "Seguro de Vida Familiar",
-                Instant.parse("2021-07-01T00:00:00Z"),
-                true,
-                Map.of(
-                        "Incêndio", BigDecimal.valueOf(500000.00),
-                        "Desastres naturais", BigDecimal.valueOf(600000.00),
-                        "Responsabilidade civil", BigDecimal.valueOf(80000.00),
-                        "Roubo", BigDecimal.valueOf(100000.00)
-                ),
-                Set.of("Encanador", "Eletricista", "Chaveiro 24h", "Assistência Funerária"),
-                new PremioMensalDTO(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
-        );
-    }
-    public static OfertaResponse criarOfertaResponseInativa() {
-        return new OfertaResponse(
-                "adc56d77-348c-4bf0-908f-22d402ee715c",
-                "1b2da7cc-b367-4196-8a78-9cfeec21f587",
-                "Seguro de Vida Familiar",
-                Instant.parse("2021-07-01T00:00:00Z"),
-                false,
-                Map.of(
-                        "Incêndio", BigDecimal.valueOf(500000.00),
-                        "Desastres naturais", BigDecimal.valueOf(600000.00),
-                        "Responsabilidade civil", BigDecimal.valueOf(80000.00),
-                        "Roubo", BigDecimal.valueOf(100000.00)
-                ),
-                Set.of("Encanador", "Eletricista", "Chaveiro 24h", "Assistência Funerária"),
-                new PremioMensalDTO(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
-        );
-    }
     public static OfertaResponse criarOfertaResponseComProdutoDiferente() {
-        return new OfertaResponse(
-                "adc56d77-348c-4bf0-908f-22d402ee715c",
-                "1b2da7cc-b367-4196-8a78-9cfeec-OUTRO",
-                "Seguro de Vida Familiar",
-                Instant.parse("2021-07-01T00:00:00Z"),
-                true,
-                Map.of(
-                        "Incêndio", BigDecimal.valueOf(500000.00),
-                        "Desastres naturais", BigDecimal.valueOf(600000.00),
-                        "Responsabilidade civil", BigDecimal.valueOf(80000.00),
-                        "Roubo", BigDecimal.valueOf(100000.00)
-                ),
-                Set.of("Encanador", "Eletricista", "Chaveiro 24h", "Assistência Funerária"),
-                new PremioMensalDTO(BigDecimal.valueOf(100.74), BigDecimal.valueOf(50.00), BigDecimal.valueOf(60.25))
-        );
+        return Instancio.of(OfertaResponse.class)
+                .set(Select.field("productId"), "1b2da7cc-b367-4196-8a78-9cfeec-OUTRO")
+                .create();
+    }
+
+    public static OfertaResponse criarOfertaResponseInativa() {
+        return Instancio.of(OfertaResponse.class)
+                .set(Select.field("active"), false)
+                .create();
+    }
+
+    public static OfertaResponse criarOfertaResponseAtiva() {
+        return Instancio.of(OfertaResponse.class)
+                .set(Select.field("active"), true)
+                .create();
+    }
+    public static OfertaResponse criarOfertaResponseCoberturasValidas() {
+        return Instancio.of(OfertaResponse.class)
+                .set(Select.field("active"), true)
+                .set(Select.field("coverages"),Map.of("Cobertura 1", BigDecimal.valueOf(100)))
+                .create();
+    }
+    public static OfertaResponse criarOfertaResponseValidarAssistenciaValida() {
+        return Instancio.of(OfertaResponse.class)
+                .set(Select.field("assistencias"), List.of("Assistência 1"))
+                .create();
+    }
+    public static OfertaResponse criarOfertaResponseValidarPremioMensalValido() {
+        return Instancio.of(OfertaResponse.class)
+                .set(Select.field("premioMensal"), new PremioMensal(BigDecimal.valueOf(100),
+                        BigDecimal.valueOf(50),BigDecimal.ZERO ))
+                .create();
     }
 }

@@ -1,15 +1,14 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.rest;
 
 
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.InsuranceRequest;
 import com.realizacontacoes.realizacontacoes.seguro.domain.ports.input.ProcessaCotacaoPort;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cotacao")
@@ -27,5 +26,14 @@ public class CotacaoController {
         //Processa cotacao.
         processaCotacaoPort.processarCotacao(request);
         return ResponseEntity.ok("Cotação recebida com sucesso.");
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarCotacaoPorId(@PathVariable Long id) {
+       try {
+            Cotacao cotacao = processaCotacaoPort.buscarCotacaoPorId(id);
+            return ResponseEntity.ok(cotacao);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cotação não encontrada com o ID: " + id);
+        }
     }
 }

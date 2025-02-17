@@ -1,7 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.utils.mapper;
 
 
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.persistence.CoveragesEntity;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database.entity.CoveragesEntity;
 import org.mapstruct.Mapper;
 
 import java.math.BigDecimal;

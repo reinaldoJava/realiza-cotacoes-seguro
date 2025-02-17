@@ -1,38 +1,43 @@
 package com.realizacontacoes.realizacontacoes.seguro.utils;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CoverageDTO;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CustomerDTO;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Customer;
 import org.instancio.Instancio;
-import org.instancio.Model;
+import org.instancio.Select;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import static org.instancio.Select.field;
-
 public class CotacaoMock {
-    public static CotacaoDTO createMockCotacao() {
-        Model<CotacaoDTO> model = Instancio.of(CotacaoDTO.class)
-                .supply(field("id"), () -> 1L)
-                .supply(field("productId"), () -> "product-1")
-                .supply(field("offerId"), () -> "offer-1")
-                .supply(field("category"), () -> "category-1")
-                .supply(field("totalMonthlyPremiumAmount"), () -> BigDecimal.valueOf(100.00))
-                .supply(field("totalCoverageAmount"), () -> BigDecimal.valueOf(10000.00))
-                .supply(field("coveragesDTO"), () -> List.of(
-                        new CoverageDTO(1L, "type-1", BigDecimal.valueOf(5000.00), 1L)
+    public static Cotacao createMockCotacao() {
+        return Instancio.of(Cotacao.class)
+                .set(Select.field("id"), 22345L)
+                .set(Select.field("productId"), "product-1")
+                .set(Select.field("insurancePolicyId"), "756969")
+                .set(Select.field("offerId"), "offer-1")
+                .set(Select.field("createdAt"), "2024-05-22T20:37:17.090098")
+                .set(Select.field("updatedAt"), "2024-05-22T20:37:17.090098")
+                .set(Select.field("category"), "category-1")
+                .set(Select.field("totalMonthlyPremiumAmount"), BigDecimal.valueOf(100.00))
+                .set(Select.field("totalCoverageAmount"), BigDecimal.valueOf(10000.00))
+                .set(Select.field("coverages"), Map.of(
+                        "type-1", 5000.0
                 ))
-                .supply(field("assistances"), () -> List.of("assistance-1"))
-                .supply(field("customerDTO"), () -> new CustomerDTO(
-                        Optional.of(1L), "document-1", "customer-1", "type-1", "gender-1",
-                        LocalDate.of(1990, 1, 1), "email@example.com", 1234567890L
-                ))
-                .toModel();
-
-        return Instancio.create(model);
+                .set(Select.field("assistances"), List.of("assistance-1"))
+                .set(Select.field("customer"), Instancio.of(Customer.class)
+                        .set(Select.field("id"), Optional.of(1L))
+                        .set(Select.field("documentNumber"), "document-1")
+                        .set(Select.field("name"), "customer-1")
+                        .set(Select.field("type"), "type-1")
+                        .set(Select.field("gender"), "gender-1")
+                        .set(Select.field("dateOfBirth"), LocalDate.of(1990, 1, 1))
+                        .set(Select.field("email"), "email@example.com")
+                        .set(Select.field("phoneNumber"), 1234567890L)
+                        .create())
+                .create();
     }
 }
 

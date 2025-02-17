@@ -70,15 +70,4 @@ class ConsultaOfertaAdapterTest {
             consultaOfertaAdapter.getOfertaById("nao-existe");
         });
     }
-
-    /*@Test
-    @DisplayName("Deve retornar erro 500 quando o serviço externo falhar")
-    void deveRetornarErroQuandoServicoFalhar() {
-        stubFor(get(urlEqualTo("/servicos-externos/consulta-oferta/"))
-                .willReturn(aResponse().withStatus(500)));
-
-        Assertions.assertThrows(Exception.class, () -> {
-            consultaOfertaAdapter.getOfertaById("erro-servidor");
-        });
-    }*/
 }

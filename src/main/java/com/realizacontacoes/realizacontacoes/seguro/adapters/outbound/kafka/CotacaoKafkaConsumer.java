@@ -1,10 +1,7 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka;
 
 import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
-import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
-import com.realizacontacoes.realizacontacoes.seguro.usecase.service.CotacaoConsumerUseCase;
-import org.apache.avro.generic.GenericData;
-import org.apache.avro.generic.GenericRecord;
+import com.realizacontacoes.realizacontacoes.seguro.usecase.CotacaoConsumerUseCase;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

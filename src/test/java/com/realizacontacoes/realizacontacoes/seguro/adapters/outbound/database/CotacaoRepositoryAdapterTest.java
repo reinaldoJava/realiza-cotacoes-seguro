@@ -1,61 +1,81 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database;
 
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.CotacaoDTO;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.exception.CotacaoNaoEncontradaException;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database.entity.CotacaoEntity;
+import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.database.entity.CustomerEntity;
+import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
 import com.realizacontacoes.realizacontacoes.seguro.utils.CotacaoMock;
-import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoMapperManual;
+import com.realizacontacoes.realizacontacoes.seguro.utils.mapper.CotacaoEntityMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(MockitoExtension.class)
 public class CotacaoRepositoryAdapterTest {
 
-    @Autowired
+    @Mock
     private CotacaoJpaRepository cotacaoJpaRepository;
 
-    private CotacaoMapperManual cotacaoMapperManual = new CotacaoMapperManual();
+    @Mock
+    private CotacaoEntityMapper cotacaoEntityMapper;
 
+    @InjectMocks
     private CotacaoRepositoryAdapter cotacaoRepositoryAdapter;
-    private CotacaoDTO cotacaoDTO = CotacaoMock.createMockCotacao();
+
+    Cotacao cotacao = CotacaoMock.createMockCotacao();
+    CotacaoEntity entity = CotacaoEntityMapper.toEntity(cotacao);
+    CustomerEntity customerEntity = new CustomerEntity();
 
     @BeforeEach
-    public void init() {
-        cotacaoRepositoryAdapter = new CotacaoRepositoryAdapter(cotacaoJpaRepository);
+    void setup() {
+        entity.setCustomer(customerEntity);
     }
 
     @Test
-    @DisplayName("Deve salvar uma cotação no banco de dados")
-    public void deveSalvarCotacao() {
-
-        CotacaoDTO cotacaoSalva = cotacaoRepositoryAdapter.salvarCotacao(cotacaoDTO);
-
-        assertNotNull(cotacaoSalva);
-        assertEquals(cotacaoDTO.id(), cotacaoSalva.id());
+    @DisplayName("Deve atualizar a cotação no banco de dados")
+    void atualizaCotacao() {
+        when(cotacaoJpaRepository.save(any(CotacaoEntity.class))).thenReturn(entity);
+        cotacaoRepositoryAdapter.atualizaCotacao(cotacao);
+        verify(cotacaoJpaRepository, times(1)).save(any(CotacaoEntity.class));
     }
 
     @Test
-    @DisplayName("Deve atualizar uma cotação no banco de dados")
-    //TODO Fazer o ajustes.
-    public void deveAtualizarCotacao() {
+    @DisplayName("Deve salvar a cotação no banco de dados")
+    void salvarCotacao() {
 
-        /*CotacaoDTO cotacaoSalva = cotacaoRepositoryAdapter.salvarCotacao(cotacaoDTO);
-        CotacaoEntity cotacaoEntity = cotacaoMapper.DTOToEntity(cotacaoSalva);
-        cotacaoEntity.setProductId("novo_id");
-        CotacaoDTO cotacaoSalvaNova = cotacaoMapper.toDomain(cotacaoEntity);
-        cotacaoRepositoryAdapter.atualizaCotacao(cotacaoSalvaNova);
-
-        CotacaoDTO cotacaoAtualizada = cotacaoJpaRepository.findById(cotacaoSalvaNova.id()).map(cotacaoMapper::toDomain).orElse(null);
-
-        assertNotNull(cotacaoAtualizada);
-        assertEquals(cotacaoSalvaNova.productId(), cotacaoAtualizada.productId());*/
+        Cotacao cotacaoRetorno = CotacaoMock.createMockCotacao();
+        when(cotacaoJpaRepository.save(any(CotacaoEntity.class))).thenReturn(entity);
+        Cotacao resultado = cotacaoRepositoryAdapter.salvarCotacao(cotacao);
+        assertEquals(cotacaoRetorno.productId(), resultado.productId());
+        verify(cotacaoJpaRepository, times(1)).save(any(CotacaoEntity.class));
     }
 
+    @Test
+    @DisplayName("Deve buscar a cotação por ID")
+    void buscaCotacaoPorId() {
+        Long id = 1L;
+        when(cotacaoJpaRepository.findById(id)).thenReturn(Optional.of(entity));
+        Cotacao resultado = cotacaoRepositoryAdapter.buscaCotacaoPorId(id);
+        assertEquals(cotacao.productId(), resultado.productId());
+        verify(cotacaoJpaRepository, times(1)).findById(id);
+    }
 
+    @Test
+    @DisplayName("Deve lançar exceção ao buscar cotação por ID inexistente")
+    void buscaCotacaoPorIdInexistente() {
+        Long id = 1L;
+        when(cotacaoJpaRepository.findById(id)).thenReturn(Optional.empty());
+        assertThrows(CotacaoNaoEncontradaException.class, () -> cotacaoRepositoryAdapter.buscaCotacaoPorId(id));
+        verify(cotacaoJpaRepository, times(1)).findById(id);
+    }
 }

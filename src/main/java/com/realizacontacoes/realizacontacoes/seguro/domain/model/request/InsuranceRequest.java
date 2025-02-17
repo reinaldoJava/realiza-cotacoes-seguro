@@ -2,11 +2,12 @@ package com.realizacontacoes.realizacontacoes.seguro.domain.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.realizacontacoes.realizacontacoes.seguro.adapters.inbound.exception.ValidationException;
-import com.realizacontacoes.realizacontacoes.seguro.domain.model.ValidationMessages;
+import com.realizacontacoes.realizacontacoes.seguro.utils.ValidationMessages;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public record InsuranceRequest(
         CustomerRequest customer
 ) {
     public void validarAssistencias(List<String> assistenciasDisponiveis) {
-    if (!assistenciasDisponiveis.containsAll(this.assistances)) {
+    if (!new HashSet<>(assistenciasDisponiveis).containsAll(this.assistances)) {
         throw new ValidationException("Uma ou mais assistências não estão disponíveis na oferta.");
     }
 }
@@ -48,4 +49,5 @@ public record InsuranceRequest(
         if (somaCoberturas.compareTo(totalCoberturaEsperado) != 0) {
             throw new ValidationException("O valor total das coberturas não corresponde ao esperado para a oferta.");
         }
-    }}
+    }
+}

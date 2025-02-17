@@ -272,7 +272,8 @@
 								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/RealizaContacoesSeguroApplication.java</exclude>
 								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/config/**</exclude>
 								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/adapters/inbound/exception/**</exclude>
-
+								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/adapters/outbound/persistence/**</exclude>
+								<exclude>**/com/realizacontacoes/realizacontacoes/seguro/adapters/outbound/persistence/**</exclude>
 							</excludes>
 						</configuration>
 					</execution>

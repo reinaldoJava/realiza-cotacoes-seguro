@@ -1,7 +1,8 @@
 package com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.kafka;
 
 import com.realizacontacoes.realizacontacoes.avro.CotacaoAvro;
-import com.realizacontacoes.realizacontacoes.seguro.usecase.service.CotacaoConsumerUseCase;
+import com.realizacontacoes.realizacontacoes.seguro.usecase.CotacaoConsumerUseCase;
+import com.realizacontacoes.realizacontacoes.seguro.utils.CotacaoMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class KafkaConsumerProducerTest {
     @Mock
     private KafkaTemplate<String, CotacaoAvro> kafkaTemplate;
 
-    private String topic ="topic-external";
+    private String topic ="topic-test";
 
     private CotacaoKafkaConsumer cotacaoKafkaConsumer;
     @Mock
@@ -53,7 +54,7 @@ public class KafkaConsumerProducerTest {
 
     public void testEnviarMensagem() throws Exception {
         String mensagem = "Olá, Kafka!";
-        //kafkaProducer.enviarMensagem(topic,mensagem);
+        kafkaProducer.enviarCotacao(CotacaoMock.createMockCotacao());
 
         verify(kafkaTemplate, times(1)).send(topic, new CotacaoAvro());
     }
@@ -63,7 +64,7 @@ public class KafkaConsumerProducerTest {
     @DisplayName("Verificar se a mensagem foi recebida corretamente")
     public void testReceberMensagem() throws Exception {
         String mensagem = "Olá, Kafka!";
-        //kafkaTemplate.send("topic", mensagem);
+        kafkaTemplate.send(topic,new CotacaoAvro());
         cotacaoKafkaConsumer.getLatch().await(10, TimeUnit.SECONDS);
         assertTrue(cotacaoKafkaConsumer.getLatch().getCount() == 0);
         assertThat(cotacaoKafkaConsumer.getReceivedMessage(), equalTo(mensagem));
