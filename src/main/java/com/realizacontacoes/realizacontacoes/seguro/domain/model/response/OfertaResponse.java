@@ -14,7 +14,9 @@ public record OfertaResponse(String id,
                              @JsonProperty("created_at") Instant createdAt,
                              boolean active,
                              Map<String, Double> coverages,
+                             @JsonProperty("assistances")
                              Set<String> assistencias,
+                             @JsonProperty("monthly_premium_amount")
                              PremioMensal premioMensal
 ) {
 }
