@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "consultarOferta", url = "${feign.consulta.oferta.url}", configuration = FeignClientConfig.class)
 public interface ConsultaOfertaServiceExternal {
-    @GetMapping("/consulta-oferta/{id}")
+    @GetMapping("/consulta-oferta/test{id}")
     OfertaResponse getOfertaById(@PathVariable("id") String offerId);
 }
 

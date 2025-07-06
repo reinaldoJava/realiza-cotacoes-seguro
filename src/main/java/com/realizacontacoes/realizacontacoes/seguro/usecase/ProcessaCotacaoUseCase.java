@@ -1,6 +1,5 @@
 package com.realizacontacoes.realizacontacoes.seguro.usecase;
 
-import com.realizacontacoes.realizacontacoes.seguro.adapters.outbound.rest.ConsultaProdutoAdapter;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.Cotacao;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.request.InsuranceRequest;
 import com.realizacontacoes.realizacontacoes.seguro.domain.model.response.OfertaResponse;
