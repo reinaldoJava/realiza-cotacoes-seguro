@@ -1,0 +1,68 @@
+# .github/workflows/deploy-free.yml
+
+name: Deploy Gratuito (Mock) no Azure Container Apps
+
+# Gatilho: Roda sempre que houver um push na branch 'develop'
+on:
+  push:
+    branches: [ develop ]
+
+# --- Variáveis de Ambiente ---
+# NOTA: Atualize estes valores com a saída do seu 'terraform apply'
+env:
+  AZURE_RESOURCE_GROUP: 'rg-helloworld-aca'           # O nome do Resource Group do seu Terraform
+  AZURE_CONTAINER_REGISTRY: 'acrhelloworldxxxx.azurecr.io' # O valor do output 'ACR_LOGIN_SERVER'
+  ACA_APP_NAME: 'app-api-helloworld'                 # O nome do seu Container App
+  CONTAINER_IMAGE_NAME: 'cotacao-hello-world'          # O nome que você quer para sua imagem Docker
+
+# --- Jobs ---
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest # Usar um executor Linux
+
+    steps:
+      # 1. Baixa o código do seu repositório
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Loga no Azure
+      - name: Logar no Azure
+        uses: azure/container-apps-deploy@v1
+        with:
+          # Cole os IDs da sua identidade federada aqui
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+
+      # 3. Loga no Azure Container Registry (ACR)
+      - name: Logar no Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
+
+      # 4. Constrói a imagem Docker e envia para o ACR
+      - name: Build e Push da imagem Docker
+        run: |
+          # Constrói a imagem usando o Dockerfile
+          docker build . -t ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
+          
+          # Envia a imagem para o ACR
+          docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
+
+      # 5. Faz o deploy no Azure Container App
+      - name: Deploy no Container App
+        uses: azure/container-apps-deploy@v1
+        with:
+          # O nome do App para o qual fazer o deploy
+          appName: ${{ env.ACA_APP_NAME }}
+          
+          # O Grupo de Recursos onde o App está
+          resourceGroup: ${{ env.AZURE_RESOURCE_GROUP }}
+          
+          # A imagem exata que acabamos de enviar (identificada pelo hash do commit)
+          imageToDeploy: ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
+          
+          # --- A PARTE MAIS IMPORTANTE ---
+          # Injeta a variável de ambiente para ativar o perfil MOCK
+          environmentVariables: |
+            SPRING_PROFILES_ACTIVE=mock

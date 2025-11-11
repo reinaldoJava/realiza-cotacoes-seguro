@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cotacao
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init_sql:/docker-entrypoint-initdb.d/
+      - mysql-data:/var/lib/mysql
+    networks:
+      - minha-rede
+
+  servicos-externos:
+    image: python:3.9
+    container_name: servicos-externos
+    volumes:
+      - ./mock_services:/app
+    working_dir: /app
+    ports:
+      - "9091:9091"
+    command: [ "python", "mock_api.py" ]
+    networks:
+      - minha-rede
+
+  kafka:
+    container_name: kafka_test
+    hostname: kafka_test
+    image: obsidiandynamics/kafka
+    restart: "no"
+    ports:
+      - "9092:9092"
+    networks:
+      - minha-rede
+    environment:
+      KAFKA_LISTENERS: "INTERNAL://kafka_test:29092,EXTERNAL://0.0.0.0:9092"
+      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka_test:29092,EXTERNAL://localhost:9092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"  # 🔹 Correção aqui
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CONFLUENT_SUPPORT_CUSTOMER_ID: "anonymous"
+      KAFKA_METRIC_REPORTERS: "io.confluent.metrics.reporter.ConfluentMetricsReporter"
+      KAFKA_SCHEMA_REGISTRY_URL: "http://localhost:8081"
+      KAFKA_KRAFT_MODE: "true"
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: schema_registry_test
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka_test:29092"
+      SCHEMA_REGISTRY_HOST_NAME: schema_registry_test
+      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8081"
+    ports:
+      - "8081:8081"
+    networks:
+      - minha-rede
+networks:
+  minha-rede:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  kafka-data:
