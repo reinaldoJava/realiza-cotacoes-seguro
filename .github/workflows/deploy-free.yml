@@ -27,7 +27,7 @@ jobs:
 
       # 2. Loga no Azure
       - name: Logar no Azure
-        uses: azure/login@v1
+        uses: azure/container-apps-deploy@v1
         with:
           # Cole os IDs da sua identidade federada aqui
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
